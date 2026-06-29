@@ -103,10 +103,10 @@ void USkillsMenuWidget::UpgradeGreen()
 	}
 	Info.GreenLevel++;
 	Info.Score -= Info.GetCostForLevel(Info.GreenLevel);
-	Info.Heal += 0.1;
-	Info.MaxHealth *= 1.5;
-	Info.MaxStamina *= 1.5;
-	Info.StaminaRegenRate -= 0.05; // todo?
+	Info.Heal += 0.1f;
+	Info.MaxHealth *= 1.5f;
+	Info.MaxStamina *= 1.5f;
+	Info.StaminaRegenRate -= 0.05f; // todo?
 	SetHeroStats(Info);
 	GameInstance->UpdateCurrentCharacter(Info);
 	GameMode->SetHeroStats(Info);
@@ -139,7 +139,7 @@ void USkillsMenuWidget::UpgradeDefense()
 	Info.Score -= Info.GetCostForLevel(Info.DefenseLevel);
 	Info.BlockEffort -= Info.GetCostForLevel(Info.DefenseLevel);
 	Info.BlockEffect += Info.AttackLevel;
-	Info.PerfectBlockWindow += 0.2;
+	Info.PerfectBlockWindow += 0.2f;
 	SetHeroStats(Info);
 	GameInstance->UpdateCurrentCharacter(Info);
 	GameMode->SetHeroStats(Info);

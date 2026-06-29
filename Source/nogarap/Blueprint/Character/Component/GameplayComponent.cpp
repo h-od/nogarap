@@ -1,5 +1,7 @@
 ﻿#include "GameplayComponent.h"
 
+#include "TimerManager.h"
+#include "Engine/World.h"
 #include "Kismet/GameplayStatics.h"
 #include "nogarap/Blueprint/Character/Player/NogarapCharacter.h"
 #include "nogarap/Data/Character/CharacterGameplay.h"

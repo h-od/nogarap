@@ -1,5 +1,7 @@
 #pragma once
 
+#include "UObject/Object.h"
+
 #include "FileWrite.generated.h"
 
 UCLASS()

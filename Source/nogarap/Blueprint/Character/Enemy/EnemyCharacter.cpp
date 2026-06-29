@@ -1,6 +1,9 @@
 ﻿#include "EnemyCharacter.h"
 
+#include "TimerManager.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/SkeletalMeshComponent.h"
+#include "Engine/World.h"
 #include "Kismet/GameplayStatics.h"
 #include "nogarap/Blueprint/Character/Player/NogarapCharacter.h"
 #include "nogarap/Blueprint/GameMode/NogarapGameMode.h"

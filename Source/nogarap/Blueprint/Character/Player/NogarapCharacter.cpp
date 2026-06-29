@@ -1,6 +1,9 @@
 ﻿#include "NogarapCharacter.h"
 
 #include "EnhancedInputComponent.h"
+#include "TimerManager.h"
+#include "Components/SkeletalMeshComponent.h"
+#include "Engine/World.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"

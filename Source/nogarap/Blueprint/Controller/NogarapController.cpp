@@ -1,6 +1,7 @@
 ﻿#include "NogarapController.h"
 
 #include "EnhancedInputSubsystems.h"
+#include "Engine/LocalPlayer.h"
 #include "nogarap/Blueprint/UI/HUD/NogarapHUD.h"
 
 void ANogarapController::BeginPlay()

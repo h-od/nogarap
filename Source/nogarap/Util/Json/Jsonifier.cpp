@@ -1,5 +1,7 @@
 #include "Jsonifier.h"
 
+#include "Serialization/JsonSerializer.h"
+
 TSharedPtr<FJsonObject> UJsonifier::FromString(const FString& JsonString, bool& bOutSuccess)
 {
 	TSharedPtr<FJsonObject> ReturnJsonObject;
