@@ -29,5 +29,5 @@ public:
 	void SetScore(int32 NewValue) const;
 	void SetCombo(int32 NewValue) const;
 	void SetWave(int32 NewValue) const;
-	void GameOver();
+	void GameOver() const;
 };

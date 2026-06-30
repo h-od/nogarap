@@ -69,6 +69,11 @@ void ANogarapCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 float ANogarapCharacter::TakeDamage(const float Damage, const FDamageEvent& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
 	//TODO when successful block, fill up defensive charge
+	if (bIsDead)
+	{
+		
+		return Super::TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
+	}
 	if (GameplayComponent->CanPerfectBlock())
 	{
 		BlockStopped();
@@ -103,8 +108,9 @@ void ANogarapCharacter::SetHealth(const float NewValue) const
 	NogarapController->SetHealth(NewValue);
 }
 
-void ANogarapCharacter::Die() const
+void ANogarapCharacter::Die() 
 {
+	bIsDead = true;
 	GetMesh()->PlayAnimation(DeathAnim, false);
 	GetMovementComponent()->Deactivate();
 	NogarapController->GameOver();

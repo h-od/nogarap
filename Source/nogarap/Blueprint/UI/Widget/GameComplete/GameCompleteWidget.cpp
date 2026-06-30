@@ -1,6 +1,5 @@
-﻿#pragma once
+﻿#include "GameCompleteWidget.h"
 
-#include "GameCompleteWidget.h"
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Kismet/GameplayStatics.h"

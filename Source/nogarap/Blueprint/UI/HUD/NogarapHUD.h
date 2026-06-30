@@ -15,14 +15,12 @@ class NOGARAP_API ANogarapHUD : public AHUD
 
 	UPROPERTY()
 	UPlayerStatsWidget* PlayerStatsWidget;
-	UPROPERTY()
-	UGameOverWidget* GameSummaryWidget;
 
 protected:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UPlayerStatsWidget> PlayerStatsWidgetClass;
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<UGameOverWidget> GameSummaryWidgetClass;
+	TSubclassOf<UGameOverWidget> GameOverWidgetClass;
 
 	virtual void BeginPlay() override;
 
@@ -35,7 +33,7 @@ public:
 	void SetChargeRed(float NewValue);
 	void SetChargeBlue(float NewValue);
 	void SetWave(int32 NewValue);
-	void ShowGameSummary();
+	void ShowGameOver() const;
 
 	UPlayerStatsWidget* GetPlayerWidget();
 };

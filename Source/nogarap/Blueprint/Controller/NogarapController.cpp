@@ -55,7 +55,7 @@ void ANogarapController::SetWave(const int32 NewValue) const
 	HUD->SetWave(NewValue);
 }
 
-void ANogarapController::GameOver()
+void ANogarapController::GameOver() const
 {
-	HUD->ShowGameSummary();
+	HUD->ShowGameOver();
 }

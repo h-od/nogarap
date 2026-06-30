@@ -1,7 +1,7 @@
 ﻿#include "NogarapHUD.h"
 
 #include "Blueprint/UserWidget.h"
-#include "nogarap/Blueprint/UI/Widget/GameOverWidget.h"
+#include "nogarap/Blueprint/UI/Widget/GameOver/GameOverWidget.h"
 #include "nogarap/Blueprint/UI/Widget/PlayerStatsWidget.h"
 
 void ANogarapHUD::BeginPlay()
@@ -45,11 +45,9 @@ void ANogarapHUD::SetWave(const int32 NewValue)
 	GetPlayerWidget()->SetWave(FText::FromString(FString::FromInt(NewValue + 1)));
 }
 
-void ANogarapHUD::ShowGameSummary()
+void ANogarapHUD::ShowGameOver() const
 {
-	GameSummaryWidget = Cast<UGameOverWidget>(CreateWidget(GetWorld(), GameSummaryWidgetClass));
-	GameSummaryWidget->ShowSummary();
-	GameSummaryWidget->AddToViewport();
+	CreateWidget(GetWorld(), GameOverWidgetClass)->AddToViewport();
 }
 
 UPlayerStatsWidget* ANogarapHUD::GetPlayerWidget()

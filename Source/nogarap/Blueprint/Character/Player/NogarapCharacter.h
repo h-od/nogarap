@@ -158,7 +158,7 @@ public:
 	void SetStats(const FCharacterGameplay& NewCharacterGameplay);
 	void SetHealth(float NewValue) const;
 	UFUNCTION()
-	void Die() const;
+	void Die();
 	void SetStamina(float NewValue) const;
 	void StaminaDepleted();
 	void StopBlocking();
