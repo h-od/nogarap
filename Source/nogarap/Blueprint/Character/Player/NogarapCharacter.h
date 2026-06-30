@@ -196,6 +196,7 @@ private:
 	void HealStarted();
 	void OffensiveStarted();
 	void DefensiveStarted();
-	
+	TArray<AActor*> SphereTraceForEnemy(float Radius);
+
 	ANogarapGameMode* GetGameMode();
 };

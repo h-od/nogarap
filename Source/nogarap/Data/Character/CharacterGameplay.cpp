@@ -65,12 +65,10 @@ bool FCharacterGameplay::CanAttack() const
 	return Info.Stamina >= Info.AttackEffort;
 }
 
-float FCharacterGameplay::Attack(const UObject* WorldContextObject)
+float FCharacterGameplay::Attack()
 {
-	
-	UKismetSystemLibrary::PrintString(WorldContextObject, "FCharacterGameplay::Attack: " + FString::SanitizeFloat(Info.Stamina)+" - "+ FString::SanitizeFloat(Info.AttackEffort), true, true, FLinearColor::Red, 5.0f);
 	Info.Stamina -= Info.AttackEffort;
-	return Info.Stamina;
+	return Info.Stamina / Info.MaxStamina;
 }
 
 bool FCharacterGameplay::CanBlock() const
@@ -81,5 +79,5 @@ bool FCharacterGameplay::CanBlock() const
 float FCharacterGameplay::Block()
 {
 	Info.Stamina -= Info.BlockEffort;
-	return Info.Stamina;
+	return Info.Stamina/ Info.MaxStamina;
 }

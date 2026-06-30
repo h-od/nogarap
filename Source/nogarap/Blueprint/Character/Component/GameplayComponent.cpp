@@ -99,7 +99,7 @@ bool UGameplayComponent::CanAttack()
 
 void UGameplayComponent::Attack()
 {
-	GetCharacter()->SetStamina(CharacterStats.Attack(GetWorld()));
+	GetCharacter()->SetStamina(CharacterStats.Attack());
 }
 
 void UGameplayComponent::SetBlocking(const bool bBlocking)

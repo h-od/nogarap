@@ -71,6 +71,10 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	float Attack();
+	
+	void HitGreen(const FVector& Vector);
+	void HitBlue(const FVector& Vector);
+	void HitRed(const FVector& Vector);
 
 protected:
 	virtual void SetHealth(float NewValue) PURE_VIRTUAL(AEnemyCharacter::SetHealth);

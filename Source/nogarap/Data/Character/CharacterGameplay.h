@@ -31,7 +31,7 @@ struct NOGARAP_API FCharacterGameplay
 	float UpdateStamina(float Delta);
 
 	bool CanAttack() const;
-	float Attack(const UObject* WorldContextObject);
+	float Attack();
 	bool CanBlock() const;
 	float Block();
 };

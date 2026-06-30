@@ -71,7 +71,6 @@ float ANogarapCharacter::TakeDamage(const float Damage, const FDamageEvent& Dama
 	//TODO when successful block, fill up defensive charge
 	if (bIsDead)
 	{
-		
 		return Super::TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
 	}
 	if (GameplayComponent->CanPerfectBlock())
@@ -108,7 +107,7 @@ void ANogarapCharacter::SetHealth(const float NewValue) const
 	NogarapController->SetHealth(NewValue);
 }
 
-void ANogarapCharacter::Die() 
+void ANogarapCharacter::Die()
 {
 	bIsDead = true;
 	GetMesh()->PlayAnimation(DeathAnim, false);
@@ -232,7 +231,7 @@ void ANogarapCharacter::SprintStarted()
 
 void ANogarapCharacter::SprintStopped()
 {
-	GetCharacterMovement()->MaxWalkSpeed = RunSpeed; 
+	GetCharacterMovement()->MaxWalkSpeed = RunSpeed;
 	GameplayComponent->StopSprinting();
 }
 
@@ -359,8 +358,8 @@ void ANogarapCharacter::DoWeaponTrace()
 				}
 				//TODO Hit == 10 points, combo = x1.5, -> over 10 hits combo =x2, 20 hits 2.5 etc
 				const int32 NewValue = GameplayComponent->UpdateScore(AttackScore);
-				
-				
+
+
 				NogarapController->SetScore(NewValue);
 				HitActor.AddUnique(AttackHit.GetActor());
 				UGameplayStatics::ApplyPointDamage(AttackHit.GetActor(), GameplayComponent->GetPlayerManager().GetDamage(), AttackHit.ImpactPoint, AttackHit, GetController(), this, nullptr);
@@ -376,8 +375,7 @@ void ANogarapCharacter::AttackFinished()
 	WeaponTraceCurrent = 0;
 	WeaponTraceDuration = 0;
 	WeaponTraceInterval = 0;
-
-
+	
 	AttackHits.Empty();
 	HitActor.Empty();
 }
@@ -386,19 +384,90 @@ void ANogarapCharacter::HealStarted()
 {
 	//TODO max health or add certain amount? maybe last heal skill will be full heal + invincible for 30s
 	// also set time 
-	PlayAnimMontage(HealAnim);
+	StartWeaponTrace(PlayAnimMontage(HealAnim));
+
+	// bHealActive = true;
+	//todo set timer to disable: invincible for certain time
+	
+	//TODO knockback + stun?
+
+	for (TArray<AActor*> HitSActors = SphereTraceForEnemy( 500.0f); AActor* Actor : HitSActors)
+	{
+		Cast<AEnemyCharacter>(Actor)->HitGreen(GetActorForwardVector());
+	}
 }
 
 void ANogarapCharacter::OffensiveStarted()
 {
 	// todo knockback/ damage nearby players and increased damage for X seconds
 	PlayAnimMontage(OffensiveAnim);
+
+	// bOffensiveActive = true;
+	//todo set timer to disable
+
+	//TODO hit
+
+	for (TArray<AActor*> HitActors = SphereTraceForEnemy(250.0f); AActor* Actor : HitActors)
+	{
+		//TODO Apply point damage?
+		Cast<AEnemyCharacter>(Actor)->HitRed(GetActorForwardVector());
+	}
 }
 
 void ANogarapCharacter::DefensiveStarted()
 {
 	// todo knockback/ stun nearby players and decreased damaged taken for X seconds
 	PlayAnimMontage(DefensiveAnim);
+
+	// bDefensiveActive = true;
+	//todo set timer to disable
+
+	//TODO knockback + stun?
+	for (TArray<AActor*> HitActors = SphereTraceForEnemy(500.0f); AActor* Actor : HitActors)
+	{
+		Cast<AEnemyCharacter>(Actor)->HitBlue(GetActorForwardVector());
+	}
+}
+
+TArray<AActor*> ANogarapCharacter::SphereTraceForEnemy(const float Radius)
+{
+	TArray<TEnumAsByte<EObjectTypeQuery>> TraceObjectTypes;
+	TraceObjectTypes.Add(UEngineTypes::ConvertToObjectType(ECC_Pawn));
+	TArray<AActor*> ToIgnore;
+	ToIgnore.Add(this);
+	TArray<FHitResult> OutHits;
+	const FVector Start = GetActorLocation();
+	
+	const bool bHit = UKismetSystemLibrary::SphereTraceMulti(
+		GetWorld(),
+		Start,
+		Start + (GetActorForwardVector() * 500.0f),
+		Radius,
+		UEngineTypes::ConvertToTraceType(ECC_Pawn),
+		false,
+		ToIgnore,
+		EDrawDebugTrace::Type::ForDuration,
+		OutHits,
+		true,
+		FLinearColor::Red,
+		FLinearColor::Green,
+		5.0
+	);
+	
+	TArray<AActor*> HitActors;
+	if (bHit)
+	{
+		for (FHitResult OutHit : OutHits)
+		{
+			if (AActor* Actor = OutHit.GetActor(); Actor->IsA(AEnemyCharacter::StaticClass()))
+			{
+				HitActors.AddUnique(Actor);
+			}
+		}
+		UKismetSystemLibrary::PrintString(GetWorld(), "ANogarapCharacter::HealStarted " + FString::FromInt(HitActors.Num()), true, true, FLinearColor::Red, 5.0f);
+
+	}
+	return HitActors;
 }
 
 ANogarapGameMode* ANogarapCharacter::GetGameMode()

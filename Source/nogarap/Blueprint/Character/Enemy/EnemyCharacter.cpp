@@ -43,6 +43,30 @@ float AEnemyCharacter::Attack()
 	return Duration;
 }
 
+void AEnemyCharacter::HitGreen(const FVector& Vector)
+{
+	
+	StopAnimMontage();
+	PlayAnimMontage(HitAnim);
+	//todo knockback
+}
+
+void AEnemyCharacter::HitBlue(const FVector& Vector)
+{
+	StopAnimMontage();
+	PlayAnimMontage(HitAnim);
+	// FVector Impact = 
+	//todo knockback + stun -> 
+	
+}
+
+void AEnemyCharacter::HitRed(const FVector& Vector)
+{
+	//todo probs don't need param
+	StopAnimMontage();
+	PlayAnimMontage(HitAnim);
+}
+
 void AEnemyCharacter::UpdateHealth(const float Delta)
 {
 	Health += Delta;
