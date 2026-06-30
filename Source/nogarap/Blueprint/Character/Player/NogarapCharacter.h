@@ -6,6 +6,7 @@
 #include "nogarap/Data/Character/CharacterGameplay.h"
 #include "NogarapCharacter.generated.h"
 
+class UGameOverWidget;
 enum class ECharacters : uint8;
 class ANogarapGameMode;
 class UGameplayComponent;
@@ -139,6 +140,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category="Weapon")
 	FName WeaponTipOther;
 
+	
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UGameOverWidget> GameOverWidgetClass;
 public:
 	UPROPERTY(BlueprintReadOnly)
 	bool bIsStunned;
@@ -165,6 +169,8 @@ public:
 	void SaveAttack();
 	UFUNCTION()
 	int32 GetScore() const;
+	UFUNCTION()
+	int32 GetTotalScore() const;
 
 protected:
 	UFUNCTION(BlueprintCallable)

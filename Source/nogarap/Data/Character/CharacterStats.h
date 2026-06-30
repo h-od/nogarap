@@ -12,6 +12,8 @@ struct NOGARAP_API FCharacterStats
 
 	UPROPERTY()
 	int32 Score;
+	UPROPERTY()
+	int32 TotalScore;
 
 	UPROPERTY()
 	int32 RedLevel = 0;
@@ -93,9 +95,10 @@ struct NOGARAP_API FCharacterStats
 		const float NewBlockEffort,
 		const float NewBlockEffect,
 		const float NewPerfectBlockWindow
-	)
+	) : OffensiveDamage(0), OffensiveEffect(0), DefensiveDamage(0), DefensiveEffect(0)//TODO
 	{
-		Score = NewScore;
+		TotalScore = NewScore;
+		Score = 0;
 		OffensiveTime = NewOffensiveTime;
 		Offensive = NewOffensive;
 		MaxOffensive = NewMaxOffensive;

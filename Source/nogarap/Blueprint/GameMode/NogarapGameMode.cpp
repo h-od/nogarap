@@ -9,6 +9,7 @@
 #include "nogarap/Blueprint/Character/Player/NogarapCharacter.h"
 #include "nogarap/Blueprint/Controller/NogarapController.h"
 #include "nogarap/Blueprint/GameInstance/NogarapGameInstance.h"
+#include "nogarap/Blueprint/UI/Widget/GameComplete/GameCompleteWidget.h"
 #include "nogarap/Data/Game/BotStats.h"
 
 ANogarapGameMode::ANogarapGameMode()
@@ -250,9 +251,14 @@ void ANogarapGameMode::CheckWaveComplete()
 		}
 		else
 		{
-			// back to main menu todo save score to game instance
-			GameInstance->SaveCharacterScore(Cast<ANogarapCharacter>(PlayerController->GetCharacter())->GetScore());
-			UGameplayStatics::OpenLevelBySoftObjectPtr(GetWorld(), MainMenu, false, "");
+			UGameCompleteWidget* UserWidget = Cast<UGameCompleteWidget>(CreateWidget(GetWorld(), GameCompleteWidgetClass));
+			const ANogarapCharacter* NogarapCharacter = Cast<ANogarapCharacter>(PlayerController->GetCharacter());
+			const int32 NewScore = NogarapCharacter->GetScore();
+			const int32 TotalScore = NogarapCharacter->GetTotalScore();
+			UserWidget->ShowSummary(FText::FromString(FString::FromInt(NewScore)), FText::FromString(FString::FromInt(TotalScore)));
+			UserWidget->AddToViewport();
+
+			GameInstance->SaveCharacterScore(TotalScore);
 		}
 	}
 }

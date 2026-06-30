@@ -37,7 +37,7 @@ public:
 
 inline void UMainMenuWidget::SetHeroStats(const FCharacterStats& CharacterInfo)
 {
-	SetScore(FText::FromString(FString::FromInt(CharacterInfo.Score)));
+	SetScore(FText::FromString(FString::FromInt(CharacterInfo.TotalScore)));
 	SetRed(CharacterInfo.ReadableLevel(CharacterInfo.RedLevel));
 	SetBlue(CharacterInfo.ReadableLevel(CharacterInfo.BlueLevel));
 	SetGreen(CharacterInfo.ReadableLevel(CharacterInfo.GreenLevel));

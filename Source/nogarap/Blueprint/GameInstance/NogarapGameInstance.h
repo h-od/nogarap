@@ -34,7 +34,7 @@ class NOGARAP_API UNogarapGameInstance : public UGameInstance
 protected:
 	//FOR DEBUG
 	UPROPERTY(EditDefaultsOnly)
-	float Score;
+	float TotalScore;
 	//RED
 	UPROPERTY(EditDefaultsOnly)
 	float OffensiveTime;

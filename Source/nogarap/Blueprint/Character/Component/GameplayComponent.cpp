@@ -16,6 +16,7 @@ void UGameplayComponent::BeginPlay()
 	Super::BeginPlay();
 
 	CharacterStats.SetHealthMax();
+	CharacterStats.ResetScore();
 }
 
 FCharacterGameplay UGameplayComponent::GetPlayerManager() const
@@ -98,7 +99,7 @@ bool UGameplayComponent::CanAttack()
 
 void UGameplayComponent::Attack()
 {
-	GetCharacter()->SetStamina(CharacterStats.Attack());
+	GetCharacter()->SetStamina(CharacterStats.Attack(GetWorld()));
 }
 
 void UGameplayComponent::SetBlocking(const bool bBlocking)
@@ -205,6 +206,11 @@ int32 UGameplayComponent::GetScore() const
 int32 UGameplayComponent::UpdateScore(const int32 Score)
 {
 	return CharacterStats.UpdateScore(Score);
+}
+
+int32 UGameplayComponent::GetTotalScore()
+{
+	return CharacterStats.GetTotalScore();
 }
 
 ANogarapCharacter* UGameplayComponent::GetCharacter()

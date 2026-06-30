@@ -27,7 +27,7 @@ void UNogarapGameInstance::Load()
 
 		CharactersInfo = TMap<ECharacters, FCharacterStats>();
 		const FCharacterStats NewCharacter = FCharacterStats(
-			Score,
+			TotalScore,
 			OffensiveTime,
 			Offensive,
 			MaxOffensive,
@@ -123,7 +123,7 @@ FCharacterStats UNogarapGameInstance::GetStatsForCurrentCharacter()
 
 void UNogarapGameInstance::SaveCharacterScore(const float NewScore)
 {
-	CharactersInfo[Hero].Score = NewScore;
+	CharactersInfo[Hero].TotalScore = NewScore;
 	Save();
 }
 

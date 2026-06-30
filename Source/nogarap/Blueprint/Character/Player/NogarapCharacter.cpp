@@ -147,6 +147,11 @@ int32 ANogarapCharacter::GetScore() const
 	return GameplayComponent->GetScore();
 }
 
+int32 ANogarapCharacter::GetTotalScore() const
+{
+	return GameplayComponent->GetTotalScore();
+}
+
 void ANogarapCharacter::Hit(AActor* DamagedActor, FVector const& HitFromDirection, FHitResult const& HitInfo, const TSubclassOf<UDamageType> DamageTypeClass) const
 {
 	if (DamagedActor->IsA(StaticClass()))

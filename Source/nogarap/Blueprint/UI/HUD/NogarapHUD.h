@@ -4,7 +4,7 @@
 #include "GameFramework/HUD.h"
 #include "NogarapHUD.generated.h"
 
-class UGameSummaryWidget;
+class UGameOverWidget;
 class UPlayerStatsWidget;
 class UBossHealthWidget;
 
@@ -16,13 +16,13 @@ class NOGARAP_API ANogarapHUD : public AHUD
 	UPROPERTY()
 	UPlayerStatsWidget* PlayerStatsWidget;
 	UPROPERTY()
-	UGameSummaryWidget* GameSummaryWidget;
+	UGameOverWidget* GameSummaryWidget;
 
 protected:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UPlayerStatsWidget> PlayerStatsWidgetClass;
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<UGameSummaryWidget> GameSummaryWidgetClass;
+	TSubclassOf<UGameOverWidget> GameSummaryWidgetClass;
 
 	virtual void BeginPlay() override;
 

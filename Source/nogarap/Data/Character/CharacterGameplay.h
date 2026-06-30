@@ -21,15 +21,17 @@ struct NOGARAP_API FCharacterGameplay
 	FCharacterStats Info;
 
 	void SetHealthMax();
+	void ResetScore();
 	int UpdateHealth(float Delta);
 	float GetCurrentHealth() const;
 	int32 UpdateScore(int32 Delta);
 	float GetScore() const;
+	int32 GetTotalScore();
 	float GetDamage() const;
 	float UpdateStamina(float Delta);
 
 	bool CanAttack() const;
-	float Attack();
+	float Attack(const UObject* WorldContextObject);
 	bool CanBlock() const;
 	float Block();
 };

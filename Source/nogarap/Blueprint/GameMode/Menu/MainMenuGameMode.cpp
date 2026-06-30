@@ -104,6 +104,7 @@ void AMainMenuGameMode::ShowVillain()
 	const FTransform HeroTransform(FRotator(0.0f, 270.0f, 0.0f), FVector(-260.0f, 150.0f, 145.0f), FVector(1.0f, 1.0f, 1.0f));
 
 	CurrentHero->SetActorTransform(HeroTransform);
+	//CurrentHero->MoveTo(FVector(-260.0f, 150.0f, 145.0f), FRotator(0.0f, 270.0f, 0.0f));
 
 	//TODO eventually have hero walk 
 	//TODO also Back from villain to hero & back from confirm to villain
@@ -140,6 +141,7 @@ void AMainMenuGameMode::MoveVillain() const
 {
 	const FTransform VillainTransform(FRotator(0.0f, 90.0f, 0.0f), FVector(-260.0f, -200.0f, 145.0f), FVector(1.0f, 1.0f, 1.0f));
 	CurrentVillain->SetActorTransform(VillainTransform);
+	//CurrentVillain->MoveTo(FVector(-260.0f, -200.0f, 145.0f), FRotator(0.0f, 90.0f, 0.0f));
 }
 
 void AMainMenuGameMode::Start() const

@@ -5,27 +5,27 @@
 
 bool FCharacterStats::CanUpgradeRed() const
 {
-	return RedLevel < MaxLevel and GetCostForLevel(RedLevel + 1) <= Score;
+	return RedLevel < MaxLevel and GetCostForLevel(RedLevel + 1) <= TotalScore;
 }
 
 bool FCharacterStats::CanUpgradeBlue() const
 {
-	return BlueLevel < MaxLevel and GetCostForLevel(BlueLevel + 1) <= Score;
+	return BlueLevel < MaxLevel and GetCostForLevel(BlueLevel + 1) <= TotalScore;
 }
 
 bool FCharacterStats::CanUpgradeGreen() const
 {
-	return GreenLevel < MaxLevel and GetCostForLevel(GreenLevel + 1) <= Score;
+	return GreenLevel < MaxLevel and GetCostForLevel(GreenLevel + 1) <= TotalScore;
 }
 
 bool FCharacterStats::CanUpgradeAttack() const
 {
-	return AttackLevel < MaxLevel and GetCostForLevel(AttackLevel + 1) <= Score;
+	return AttackLevel < MaxLevel and GetCostForLevel(AttackLevel + 1) <= TotalScore;
 }
 
 bool FCharacterStats::CanUpgradeDefense() const
 {
-	return DefenseLevel < MaxLevel and GetCostForLevel(DefenseLevel + 1) <= Score;
+	return DefenseLevel < MaxLevel and GetCostForLevel(DefenseLevel + 1) <= TotalScore;
 }
 
 int32 FCharacterStats::RedUpgradeCost() const

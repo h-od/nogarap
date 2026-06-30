@@ -5,6 +5,7 @@
 #include "nogarap/Data/Character/CharacterGameplay.h"
 #include "NogarapGameMode.generated.h"
 
+class UGameCompleteWidget;
 class ANogarapCharacter;
 class ANogarapController;
 class UNogarapGameInstance;
@@ -75,7 +76,7 @@ protected:
 	TSubclassOf<AMinionCharacter> BigMinionClass;
 	
 	UPROPERTY(EditDefaultsOnly)
-	TSoftObjectPtr<UWorld> MainMenu;
+	TSubclassOf<UGameCompleteWidget> GameCompleteWidgetClass;
 
 public:
 	ANogarapGameMode();

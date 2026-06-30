@@ -15,4 +15,7 @@ public:
 	ECharacters Character;
 	
 	virtual void BeginPlay() override;
+	
+	UFUNCTION(BlueprintImplementableEvent)
+	void MoveTo(FVector Location, FRotator Rotation);
 };

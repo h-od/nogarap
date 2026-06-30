@@ -24,7 +24,7 @@ void USkillsMenuWidget::NativeConstruct()
 void USkillsMenuWidget::SetHeroStats(const FCharacterStats& CharacterInfo)
 {
 	Info = CharacterInfo;
-	SetScore(CharacterInfo.IntToText(CharacterInfo.Score));
+	SetScore(CharacterInfo.IntToText(CharacterInfo.TotalScore));
 	SetRed(
 		CharacterInfo.ReadableLevel(CharacterInfo.RedLevel),
 		CharacterInfo.CanUpgradeRed(),
@@ -66,7 +66,7 @@ void USkillsMenuWidget::UpgradeRed()
 		return;
 	}
 	Info.RedLevel++;
-	Info.Score -= Info.GetCostForLevel(Info.RedLevel);
+	Info.TotalScore -= Info.GetCostForLevel(Info.RedLevel);
 	Info.MaxOffensive -= 10.0;
 	Info.OffensiveDamage *= 1.5;
 	Info.OffensiveEffect *= 1.5;
@@ -84,7 +84,7 @@ void USkillsMenuWidget::UpgradeBlue()
 		return;
 	}
 	Info.BlueLevel++;
-	Info.Score -= Info.GetCostForLevel(Info.BlueLevel);
+	Info.TotalScore -= Info.GetCostForLevel(Info.BlueLevel);
 	Info.MaxDefensive -= 10.0;
 	Info.DefensiveDamage *= 1.5;
 	Info.DefensiveEffect *= 1.5;
@@ -102,7 +102,7 @@ void USkillsMenuWidget::UpgradeGreen()
 		return;
 	}
 	Info.GreenLevel++;
-	Info.Score -= Info.GetCostForLevel(Info.GreenLevel);
+	Info.TotalScore -= Info.GetCostForLevel(Info.GreenLevel);
 	Info.Heal += 0.1f;
 	Info.MaxHealth *= 1.5f;
 	Info.MaxStamina *= 1.5f;
@@ -120,7 +120,7 @@ void USkillsMenuWidget::UpgradeAttack()
 		return;
 	}
 	Info.AttackLevel++;
-	Info.Score -= Info.GetCostForLevel(Info.AttackLevel);
+	Info.TotalScore -= Info.GetCostForLevel(Info.AttackLevel);
 	Info.Damage += Info.AttackLevel;
 	Info.AttackEffort /= 1.5;
 	SetHeroStats(Info);
@@ -136,7 +136,7 @@ void USkillsMenuWidget::UpgradeDefense()
 		return;
 	}
 	Info.DefenseLevel++;
-	Info.Score -= Info.GetCostForLevel(Info.DefenseLevel);
+	Info.TotalScore -= Info.GetCostForLevel(Info.DefenseLevel);
 	Info.BlockEffort -= Info.GetCostForLevel(Info.DefenseLevel);
 	Info.BlockEffect += Info.AttackLevel;
 	Info.PerfectBlockWindow += 0.2f;

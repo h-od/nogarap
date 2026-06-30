@@ -79,6 +79,7 @@ public:
 	void Hit(AActor* DamagedActor, const FVector& HitFromDirection, const FHitResult& HitInfo, TSubclassOf<UDamageType> DamageTypeClass);
 	int32 GetScore() const;
 	int32 UpdateScore(int32 Score);
+	int32 GetTotalScore();
 
 private:
 	ANogarapCharacter* GetCharacter();
