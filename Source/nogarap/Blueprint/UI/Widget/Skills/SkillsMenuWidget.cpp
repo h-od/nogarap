@@ -68,7 +68,6 @@ void USkillsMenuWidget::UpgradeRed()
 	Info.RedLevel++;
 	Info.TotalScore -= Info.GetCostForLevel(Info.RedLevel);
 	Info.MaxOffensive -= 10.0;
-	Info.OffensiveDamage *= 1.5;
 	Info.OffensiveEffect *= 1.5;
 	Info.OffensiveTime *= 1.5;
 	SetHeroStats(Info);
@@ -86,7 +85,6 @@ void USkillsMenuWidget::UpgradeBlue()
 	Info.BlueLevel++;
 	Info.TotalScore -= Info.GetCostForLevel(Info.BlueLevel);
 	Info.MaxDefensive -= 10.0;
-	Info.DefensiveDamage *= 1.5;
 	Info.DefensiveEffect *= 1.5;
 	Info.DefensiveTime *= 1.5;
 	SetHeroStats(Info);
@@ -104,6 +102,7 @@ void USkillsMenuWidget::UpgradeGreen()
 	Info.GreenLevel++;
 	Info.TotalScore -= Info.GetCostForLevel(Info.GreenLevel);
 	Info.Heal += 0.1f;
+	Info.HealTime *= 1.5f;
 	Info.MaxHealth *= 1.5f;
 	Info.MaxStamina *= 1.5f;
 	Info.StaminaRegenRate -= 0.05f; // todo?

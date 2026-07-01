@@ -34,4 +34,17 @@ struct NOGARAP_API FCharacterGameplay
 	float Attack();
 	bool CanBlock() const;
 	float Block();
+	
+	bool CanHeal() const;
+	bool CanOffensive() const;
+	bool CanDefensive() const;
+	float GetHealTime() const;
+	float GetOffensiveTime() const;
+	float GetDefensiveTime() const;
+	
+	float Heal();
+	void Offensive();
+	void Defensive();
+	float IncrementOffence();
+	float IncrementDefence();
 };

@@ -31,6 +31,14 @@ class NOGARAP_API UGameplayComponent : public UActorComponent
 	bool bIsBlocking = false;
 	UPROPERTY()
 	bool bPerfectBlockWindowOpen = false;
+	UPROPERTY()
+	bool  bGreenActive = false;
+	UPROPERTY()
+	bool  bRedActive = false;
+	UPROPERTY()
+	bool  bBlueActive = false;
+	UPROPERTY()
+	FTimerHandle AbilityTimerHandle;
 	
 	FStaminaDepletedDelegate StaminaDepletedDelegate;
 	FStopBlockingDelegate StopBlockingDelegate;
@@ -47,7 +55,6 @@ public:
 
 	virtual void BeginPlay() override;
 
-	FCharacterGameplay GetPlayerManager() const;
 	void SetPlayerManager(const FCharacterGameplay& NewValue);
 	
 	void TakeDamage(const float DamageToTake, const FVector& DamageDirection);
@@ -58,7 +65,7 @@ public:
 	void StartStaminaDegen();
 	void StartStaminaRegen();
 
-	bool CanAttack();
+	bool CanAttack() const;
 	void Attack();
 	void SetBlocking(bool bBlocking);
 	bool CanPerfectBlock() const;
@@ -70,16 +77,21 @@ public:
 	
 	//heal
 	bool CanHeal() const; //todo returns cooldown 
-	void Heal();
+	void HealStart();
+	void HealStop();
 	//cast
 	bool CanOffensive() const; //todo returns cooldown 
-	void Offensive();
+	void OffensiveStart();
+	void OffensiveStop();
 	bool CanDefensive() const; //todo returns cooldown 
-	void Defensive();
+	void DefensiveStart();
+	void DefensiveStop();
 	void Hit(AActor* DamagedActor, const FVector& HitFromDirection, const FHitResult& HitInfo, TSubclassOf<UDamageType> DamageTypeClass);
 	int32 GetScore() const;
 	int32 UpdateScore(int32 Score);
 	int32 GetTotalScore();
+	void PerfectBlock();
+	float GetDamage() const;
 
 private:
 	ANogarapCharacter* GetCharacter();

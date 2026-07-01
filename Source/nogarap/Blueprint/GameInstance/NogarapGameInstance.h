@@ -41,17 +41,27 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	float Offensive;
 	UPROPERTY(EditDefaultsOnly)
+	float OffensiveIncrement;
+	UPROPERTY(EditDefaultsOnly)
 	float MaxOffensive;
+	UPROPERTY(EditDefaultsOnly)
+	float OffensiveEffect;
 	//BLUE
 	UPROPERTY(EditDefaultsOnly)
 	float DefensiveTime;
 	UPROPERTY(EditDefaultsOnly)
 	float Defensive;
 	UPROPERTY(EditDefaultsOnly)
+	float DefensiveIncrement;
+	UPROPERTY(EditDefaultsOnly)
 	float MaxDefensive;
+	UPROPERTY(EditDefaultsOnly)
+	float DefensiveEffect;
 	//GREEN
 	UPROPERTY(EditDefaultsOnly)
-	float Heal; // 10%, 20, 30, 40 etc
+	float Heal;// 10%, 20, 30, 40 etc
+	UPROPERTY(EditDefaultsOnly)
+	float HealTime; 
 	UPROPERTY(EditDefaultsOnly)
 	float Health;
 	UPROPERTY(EditDefaultsOnly)

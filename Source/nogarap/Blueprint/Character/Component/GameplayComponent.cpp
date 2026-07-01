@@ -19,11 +19,6 @@ void UGameplayComponent::BeginPlay()
 	CharacterStats.ResetScore();
 }
 
-FCharacterGameplay UGameplayComponent::GetPlayerManager() const
-{
-	return CharacterStats;
-}
-
 void UGameplayComponent::SetPlayerManager(const FCharacterGameplay& NewValue)
 {
 	CharacterStats = NewValue;
@@ -33,21 +28,29 @@ void UGameplayComponent::TakeDamage(const float DamageToTake, const FVector& Dam
 {
 	constexpr float Knockback = 500;
 
-	//TODO animations
+	if (bGreenActive)
+	{
+		return; //Invincible
+	}
+
 	GetCharacter()->LaunchCharacter(FVector(DamageDirection.X, DamageDirection.Y, 0.0f) * Knockback, true, false);
-	
+
 	float Delta = -1 * DamageToTake;
 	if (bIsBlocking and CharacterStats.CanBlock())
 	{
 		Delta /= 2;
 		UpdateStamina(CharacterStats.Info.BlockEffort * -1);
-		// PlayerManager.Block();
+		GetCharacter()->SetBlue(CharacterStats.IncrementDefence());
+	}
+	if (bBlueActive)
+	{
+		Delta -= CharacterStats.Info.DefensiveEffect; //TODO?
 	}
 	if (CharacterStats.UpdateHealth(Delta) <= 0)
 	{
 		GetCharacter()->Die();
 	}
-	
+
 	GetCharacter()->SetHealth(CharacterStats.GetCurrentHealth());
 }
 
@@ -92,7 +95,7 @@ void UGameplayComponent::StartStaminaRegen()
 	StaminaDepletedDelegate.RemoveDynamic(this, &UGameplayComponent::StopSprinting);
 }
 
-bool UGameplayComponent::CanAttack()
+bool UGameplayComponent::CanAttack() const
 {
 	return CharacterStats.CanAttack();
 }
@@ -100,6 +103,7 @@ bool UGameplayComponent::CanAttack()
 void UGameplayComponent::Attack()
 {
 	GetCharacter()->SetStamina(CharacterStats.Attack());
+	GetCharacter()->SetRed(CharacterStats.IncrementOffence());
 }
 
 void UGameplayComponent::SetBlocking(const bool bBlocking)
@@ -112,7 +116,7 @@ void UGameplayComponent::SetBlocking(const bool bBlocking)
 		bPerfectBlockWindowOpen = true;
 
 		GetWorld()->GetTimerManager().ClearTimer(PerfectBlockTimerHandle);
-		GetWorld()->GetTimerManager().SetTimer(PerfectBlockTimerHandle, this, &UGameplayComponent::PerfectBlockWindowClosed, 0.1f, true); 
+		GetWorld()->GetTimerManager().SetTimer(PerfectBlockTimerHandle, this, &UGameplayComponent::PerfectBlockWindowClosed, 0.1f, true);
 	}
 	else
 	{
@@ -160,35 +164,61 @@ void UGameplayComponent::UpdateStamina(const float Delta)
 
 bool UGameplayComponent::CanHeal() const
 {
-	//TODO
-	return false;
+	return CharacterStats.CanHeal() and !(bBlueActive or bRedActive);
 }
 
-void UGameplayComponent::Heal()
+void UGameplayComponent::HealStart()
 {
-	//TODO
+	bGreenActive = true;
+
+	//todo, tick it up?
+	GetCharacter()->SetHealth(CharacterStats.Heal());
+
+	GetWorld()->GetTimerManager().ClearTimer(AbilityTimerHandle);
+	GetWorld()->GetTimerManager().SetTimer(AbilityTimerHandle, this, &UGameplayComponent::HealStop, CharacterStats.GetHealTime(), false);
+}
+
+void UGameplayComponent::HealStop()
+{
+	bGreenActive = false;
+	GetWorld()->GetTimerManager().ClearTimer(AbilityTimerHandle);
 }
 
 bool UGameplayComponent::CanOffensive() const
 {
-	//TODO
-	return false;
+	return CharacterStats.CanOffensive() and !(bGreenActive or bBlueActive);
 }
 
-void UGameplayComponent::Offensive()
+void UGameplayComponent::OffensiveStart()
 {
-	//TODO
+	bRedActive = true;
+	GetWorld()->GetTimerManager().ClearTimer(AbilityTimerHandle);
+	GetWorld()->GetTimerManager().SetTimer(AbilityTimerHandle, this, &UGameplayComponent::OffensiveStop, CharacterStats.GetOffensiveTime(), false);
+}
+
+void UGameplayComponent::OffensiveStop()
+{
+	bRedActive = false;
+	GetWorld()->GetTimerManager().ClearTimer(AbilityTimerHandle);
 }
 
 bool UGameplayComponent::CanDefensive() const
 {
-	//TODO
-	return false;
+	return CharacterStats.CanDefensive() and !(bGreenActive or bRedActive);
 }
 
-void UGameplayComponent::Defensive()
+void UGameplayComponent::DefensiveStart()
 {
-	//TODO
+	bBlueActive = true;
+
+	GetWorld()->GetTimerManager().ClearTimer(AbilityTimerHandle);
+	GetWorld()->GetTimerManager().SetTimer(AbilityTimerHandle, this, &UGameplayComponent::DefensiveStop, CharacterStats.GetDefensiveTime(), false);
+}
+
+void UGameplayComponent::DefensiveStop()
+{
+	bBlueActive = false;
+	GetWorld()->GetTimerManager().ClearTimer(AbilityTimerHandle);
 }
 
 void UGameplayComponent::Hit(AActor* DamagedActor, const FVector& HitFromDirection, const FHitResult& HitInfo, const TSubclassOf<UDamageType> DamageTypeClass)
@@ -211,6 +241,22 @@ int32 UGameplayComponent::UpdateScore(const int32 Score)
 int32 UGameplayComponent::GetTotalScore()
 {
 	return CharacterStats.GetTotalScore();
+}
+
+void UGameplayComponent::PerfectBlock()
+{
+	GetCharacter()->SetBlue(CharacterStats.IncrementDefence());
+	GetCharacter()->SetRed(CharacterStats.IncrementOffence());
+}
+
+float UGameplayComponent::GetDamage() const
+{
+	float Damage = CharacterStats.GetDamage();
+	if (bRedActive)
+	{
+		Damage += (1 * CharacterStats.Info.OffensiveEffect);
+	}
+	return Damage;
 }
 
 ANogarapCharacter* UGameplayComponent::GetCharacter()

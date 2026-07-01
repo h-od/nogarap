@@ -11,8 +11,8 @@ void ANogarapController::BeginPlay()
 	
 	HUD->SetPlayerHealth(1.0f);
 	HUD->SetPlayerStamina(1.0f);
-	HUD->SetChargeRed(1.0f);
-	HUD->SetChargeBlue(1.0f);
+	HUD->SetRed(0.0f);
+	HUD->SetBlue(0.0f);
 }
 
 void ANogarapController::SetupInputComponent()
@@ -38,6 +38,16 @@ void ANogarapController::SetHealth(const float NewValue) const
 void ANogarapController::SetStamina(const float NewValue) const
 {
 	HUD->SetPlayerStamina(NewValue);
+}
+
+void ANogarapController::SetBlue(const float NewValue) const
+{
+	HUD->SetBlue(NewValue);
+}
+
+void ANogarapController::SetRed(const float NewValue) const
+{
+	HUD->SetRed(NewValue);
 }
 
 void ANogarapController::SetScore(const int32 NewValue) const

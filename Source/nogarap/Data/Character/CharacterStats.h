@@ -32,9 +32,9 @@ struct NOGARAP_API FCharacterStats
 	UPROPERTY()
 	float Offensive;
 	UPROPERTY()
-	float MaxOffensive;
+	float OffensiveIncrement;
 	UPROPERTY()
-	float OffensiveDamage;
+	float MaxOffensive;
 	UPROPERTY()
 	float OffensiveEffect;
 	//BLUE
@@ -43,14 +43,16 @@ struct NOGARAP_API FCharacterStats
 	UPROPERTY()
 	float Defensive;
 	UPROPERTY()
+	float DefensiveIncrement;
+	UPROPERTY()
 	float MaxDefensive;
 	UPROPERTY()
-	float DefensiveDamage;
-	UPROPERTY()
-	float DefensiveEffect;
-	//GREEN
+	float DefensiveEffect; //0-1  
+ 	//GREEN
 	UPROPERTY()
 	float Heal; // 10%, 20, 30, 40 etc
+	UPROPERTY()
+	float HealTime;
 	UPROPERTY()
 	float Health;
 	UPROPERTY()
@@ -81,10 +83,15 @@ struct NOGARAP_API FCharacterStats
 		const float NewOffensiveTime,
 		const float NewOffensive,
 		const float NewMaxOffensive,
+		const float NewMaxOffensiveIncrement,
+		const float NewOffensiveEffect,
 		const float NewDefensiveTime,
 		const float NewDefensive,
+		const float NewDefensiveIncrement,
 		const float NewMaxDefensive,
+		const float NewDefensiveEffect,
 		const float NewHeal,
+		const float NewHealTime,
 		const float NewHealth,
 		const float NewMaxHealth,
 		const float NewStamina,
@@ -95,17 +102,22 @@ struct NOGARAP_API FCharacterStats
 		const float NewBlockEffort,
 		const float NewBlockEffect,
 		const float NewPerfectBlockWindow
-	) : OffensiveDamage(0), OffensiveEffect(0), DefensiveDamage(0), DefensiveEffect(0)//TODO
+	) 
 	{
 		TotalScore = NewScore;
 		Score = 0;
 		OffensiveTime = NewOffensiveTime;
 		Offensive = NewOffensive;
+		OffensiveIncrement = NewMaxOffensiveIncrement;
+		OffensiveEffect = NewOffensiveEffect;
 		MaxOffensive = NewMaxOffensive;
 		DefensiveTime = NewDefensiveTime;
 		Defensive = NewDefensive;
+		DefensiveIncrement = NewDefensiveIncrement;
 		MaxDefensive = NewMaxDefensive;
+		DefensiveEffect = NewDefensiveEffect;
 		Heal = NewHeal;
+		HealTime = NewHealTime;
 		Health = NewHealth;
 		MaxHealth = NewMaxHealth;
 		Stamina = NewStamina;

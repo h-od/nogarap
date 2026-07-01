@@ -26,6 +26,8 @@ protected:
 public:
 	void SetHealth(float NewValue) const;
 	void SetStamina(float NewValue) const;
+	void SetBlue(float NewValue) const;
+	void SetRed(float NewValue) const;
 	void SetScore(int32 NewValue) const;
 	void SetCombo(int32 NewValue) const;
 	void SetWave(int32 NewValue) const;

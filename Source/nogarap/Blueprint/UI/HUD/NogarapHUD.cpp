@@ -30,12 +30,12 @@ void ANogarapHUD::SetPlayerStamina(const float NewValue)
 	GetPlayerWidget()->SetStamina(NewValue);
 }
 
-void ANogarapHUD::SetChargeRed(const float NewValue)
+void ANogarapHUD::SetRed(const float NewValue)
 {
 	GetPlayerWidget()->SetChargeRed(NewValue);
 }
 
-void ANogarapHUD::SetChargeBlue(const float NewValue)
+void ANogarapHUD::SetBlue(const float NewValue)
 {
 	GetPlayerWidget()->SetChargeBlue(NewValue);
 }

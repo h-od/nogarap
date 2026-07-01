@@ -157,6 +157,8 @@ public:
 	UFUNCTION()
 	void SetStats(const FCharacterGameplay& NewCharacterGameplay);
 	void SetHealth(float NewValue) const;
+	void SetRed(float NewValue) const;
+	void SetBlue(float NewValue) const;
 	UFUNCTION()
 	void Die();
 	void SetStamina(float NewValue) const;

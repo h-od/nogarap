@@ -30,8 +30,8 @@ public:
 
 	void SetPlayerHealth(float NewValue);
 	void SetPlayerStamina(float NewValue);
-	void SetChargeRed(float NewValue);
-	void SetChargeBlue(float NewValue);
+	void SetRed(float NewValue);
+	void SetBlue(float NewValue);
 	void SetWave(int32 NewValue);
 	void ShowGameOver() const;
 
