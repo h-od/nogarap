@@ -19,8 +19,16 @@ public:
 	FDateTime SlotTwo;
 	UPROPERTY()
 	FDateTime SlotThree;
+	UPROPERTY()
+	ECharacters SlotOneCharacter;
+	UPROPERTY()
+	ECharacters SlotTwoCharacter;
+	UPROPERTY()
+	ECharacters SlotThreeCharacter;
 
 	int32 GetMostRecentSlot() const;
+	ECharacters GetCharacterForSlot(int32 Slot) const;
+	void SetCharacterForSlot(int32 Slot, ECharacters Char);
 	void UpdateSlot(int32 Slot);
 };
 
@@ -43,6 +51,31 @@ inline int32 USaveMeta::GetMostRecentSlot() const
 	}
 
 	return MostRecentSlot;
+}
+
+inline ECharacters USaveMeta::GetCharacterForSlot(const int32 Slot) const
+{
+	switch (Slot)
+	{
+	case 1: return SlotOneCharacter;
+	case 2: return SlotTwoCharacter;
+	case 3: return SlotThreeCharacter;
+	default: return ECharacters::Aurora;
+	}
+}
+
+inline void USaveMeta::SetCharacterForSlot(const int32 Slot, const ECharacters Char)
+{
+	switch (Slot)
+	{
+	case 1: SlotOneCharacter = Char;
+		return;
+	case 2: SlotTwoCharacter = Char;
+		return;
+	case 3: SlotThreeCharacter = Char;
+		return;
+	default: ;//TODO?
+	}
 }
 
 inline void USaveMeta::UpdateSlot(const int32 Slot)

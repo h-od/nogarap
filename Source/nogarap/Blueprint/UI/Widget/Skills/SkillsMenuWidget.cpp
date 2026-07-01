@@ -6,7 +6,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "nogarap/Blueprint/GameInstance/NogarapGameInstance.h"
 #include "nogarap/Blueprint/GameMode/Menu/MainMenuGameMode.h"
-#include "nogarap/Data/Character/CharacterStats.h"
+#include "nogarap/Data/Character/Stats/CharacterStats.h"
 
 void USkillsMenuWidget::NativePreConstruct()
 {

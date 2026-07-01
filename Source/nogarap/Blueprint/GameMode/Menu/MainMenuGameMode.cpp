@@ -16,9 +16,8 @@ void AMainMenuGameMode::BeginPlay()
 	APlayerController* Controller = GetGameInstance()->GetLocalPlayers()[0]->GetPlayerController(GetWorld());
 	Controller->SetShowMouseCursor(true);
 	Controller->SetInputMode(FInputModeUIOnly());
-	Heroes.GetKeys(HeroKeys);
-	Villains.GetKeys(VillainKeys);
-	SpawnHero();
+	Selection.SetHero(GameInstance->Hero);
+	SpawnHero(Selection.MenuHero());
 }
 
 void AMainMenuGameMode::ShowMainWidget()
@@ -75,25 +74,17 @@ FCharacterStats AMainMenuGameMode::CurrentSavedHeroStats() const
 
 void AMainMenuGameMode::NextHero()
 {
-	if (++HeroIndex >= Heroes.Num())
-	{
-		HeroIndex = 0;
-	}
-	SpawnHero();
+	SpawnHero(Selection.NextHero());
 }
 
 void AMainMenuGameMode::PreviousHero()
 {
-	if (--HeroIndex < 0)
-	{
-		HeroIndex = Heroes.Num() - 1;
-	}
-	SpawnHero();
+	SpawnHero(Selection.PreviousHero());
 }
 
 void AMainMenuGameMode::HeroSelected()
 {
-	GameInstance->HeroToSpawn = Heroes[HeroKeys[HeroIndex]];
+	GameInstance->HeroToSpawn = Selection.Hero();
 	GameInstance->Hero = CurrentHero->Character;
 
 	MainMenuWidget->SetVillainSelect();
@@ -109,32 +100,24 @@ void AMainMenuGameMode::ShowVillain()
 	//TODO eventually have hero walk 
 	//TODO also Back from villain to hero & back from confirm to villain
 
-	SpawnVillain();
+	SpawnVillain(Selection.MenuVillain());
 }
 
 void AMainMenuGameMode::NextVillain()
 {
-	if (++VillainIndex >= Villains.Num())
-	{
-		VillainIndex = 0;
-	}
-	SpawnVillain();
+	SpawnVillain(Selection.NextVillain());
 }
 
 void AMainMenuGameMode::PreviousVillain()
 {
-	if (--VillainIndex < 0)
-	{
-		VillainIndex = Villains.Num() - 1;
-	}
-	SpawnVillain();
+	SpawnVillain(Selection.PreviousVillain());
 }
 
 void AMainMenuGameMode::VillainSelected() const
 {
 	MainMenuWidget->VillainSelected();
 
-	GameInstance->VillainToSpawn = Villains[VillainKeys[VillainIndex]];
+	GameInstance->VillainToSpawn = Selection.Villain();
 }
 
 void AMainMenuGameMode::MoveVillain() const
@@ -146,6 +129,7 @@ void AMainMenuGameMode::MoveVillain() const
 
 void AMainMenuGameMode::Start() const
 {
+	GameInstance->SetCurrentCharacter(CurrentHero->Character);
 	APlayerController* Controller = GetGameInstance()->GetLocalPlayers()[0]->GetPlayerController(GetWorld());
 	Controller->SetInputMode(FInputModeGameOnly());
 	Controller->SetShowMouseCursor(false);
@@ -157,22 +141,22 @@ void AMainMenuGameMode::SetHeroStats(const FCharacterStats& Info) const
 	MainMenuWidget->SetHeroStats(Info);
 }
 
-void AMainMenuGameMode::SpawnHero()
+void AMainMenuGameMode::SpawnHero(const TSubclassOf<AMenuCharacter> HeroClass)
 {
 	if (CurrentHero)
 	{
 		CurrentHero->Destroy();
 	}
-	CurrentHero = GetWorld()->SpawnActor<AMenuCharacter>(HeroKeys[HeroIndex], FTransform());
+	CurrentHero = GetWorld()->SpawnActor<AMenuCharacter>(HeroClass, FTransform());
 	MainMenuWidget->SetHeroStats(GameInstance->GetStatsForCharacter(CurrentHero->Character));
 }
 
-void AMainMenuGameMode::SpawnVillain()
+void AMainMenuGameMode::SpawnVillain(const TSubclassOf<AMenuCharacter> VillainClass)
 {
 	if (CurrentVillain)
 	{
 		CurrentVillain->Destroy();
 	}
-	CurrentVillain = GetWorld()->SpawnActor<AMenuCharacter>(VillainKeys[VillainIndex], FTransform());
-	GameInstance->GetStatsForCharacter(CurrentVillain->Character);
+	CurrentVillain = GetWorld()->SpawnActor<AMenuCharacter>(VillainClass, FTransform());
+	// GameInstance->GetStatsForCharacter(CurrentVillain->Character);//TODO?
 }

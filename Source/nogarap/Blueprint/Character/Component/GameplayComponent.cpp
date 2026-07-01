@@ -4,7 +4,7 @@
 #include "Engine/World.h"
 #include "Kismet/GameplayStatics.h"
 #include "nogarap/Blueprint/Character/Player/NogarapCharacter.h"
-#include "nogarap/Data/Character/CharacterGameplay.h"
+#include "nogarap/Data/Character/Stats/CharacterStats.h"
 
 UGameplayComponent::UGameplayComponent()
 {

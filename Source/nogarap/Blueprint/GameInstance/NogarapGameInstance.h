@@ -3,7 +3,7 @@
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
 #include "nogarap/Blueprint/Character/Menu/MenuCharacter.h"
-#include "nogarap/Data/Character/CharacterStats.h"
+#include "nogarap/Data/Character/Stats/CharacterStats.h"
 #include "nogarap/Data/Save/Save.h"
 #include "nogarap/Data/Save/SaveMeta.h"
 #include "NogarapGameInstance.generated.h"
@@ -21,6 +21,8 @@ class NOGARAP_API UNogarapGameInstance : public UGameInstance
 	UPROPERTY()
 	FString MetaSlotName = "Meta";
 
+	UPROPERTY()
+	ECharacters CurrentCharacter = ECharacters::Aurora;
 	UPROPERTY()
 	int32 CurrentSaveSlotIndex = 0;
 	UPROPERTY()
@@ -87,7 +89,7 @@ protected:
 	//FOR DEBUG END
 public:
 	UPROPERTY()
-	ECharacters Hero;
+	ECharacters Hero = ECharacters::Aurora;
 	UPROPERTY()
 	TSubclassOf<ANogarapCharacter> HeroToSpawn;
 	UPROPERTY()
@@ -108,6 +110,7 @@ public:
 	void SaveCharacterScore(const float NewScore);
 	USaveMeta* GetSaveMeta() const;
 	int32 GetCurrentSaveSlot() const;
+	void SetCurrentCharacter(ECharacters Character);
 	void SetCurrentSaveSlot(int32 NewCurrent);
 
 private:

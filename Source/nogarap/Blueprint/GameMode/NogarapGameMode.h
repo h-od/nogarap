@@ -2,7 +2,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
-#include "nogarap/Data/Character/CharacterGameplay.h"
 #include "NogarapGameMode.generated.h"
 
 class UGameCompleteWidget;

@@ -2,12 +2,13 @@
 
 #include "Kismet/KismetSystemLibrary.h"
 #include "nogarap/Data/Character/Characters.h"
+#include "nogarap/Data/Character/Stats/CharacterStats.h"
 
 FCharacterGameplay::FCharacterGameplay() : CurrentCharacter(ECharacters::Aurora), Info(FCharacterStats())
 {
 }
 
-FCharacterGameplay::FCharacterGameplay(ECharacters Character, const FCharacterStats CharacterInfo) : CurrentCharacter(ECharacters::Aurora)
+FCharacterGameplay::FCharacterGameplay(ECharacters Character, const FCharacterStats& CharacterInfo) : CurrentCharacter(ECharacters::Aurora)
 {
 	CurrentCharacter = Character;
 	Info = CharacterInfo;

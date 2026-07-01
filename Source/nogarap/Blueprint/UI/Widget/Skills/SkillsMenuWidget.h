@@ -2,7 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "nogarap/Data/Character/CharacterStats.h"
+#include "nogarap/Data/Character/Stats/CharacterStats.h"
 #include "SkillsMenuWidget.generated.h"
 
 class UNogarapGameInstance;

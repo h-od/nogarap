@@ -2,7 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "nogarap/Data/Character/CharacterGameplay.h"
+#include "nogarap/Data/Character/Gameplay/CharacterGameplay.h"
 #include "GameplayComponent.generated.h"
 
 struct FCharacterGameplay;

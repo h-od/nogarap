@@ -3,8 +3,10 @@
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
 #include "nogarap/Blueprint/UI/Widget/Skills/SkillsMenuWidget.h"
+#include "nogarap/Data/Character/Selection/CharacterSelection.h"
 #include "MainMenuGameMode.generated.h"
 
+struct FCharacterSelection;
 class ULoadMenuWidget;
 struct FCharacterStats;
 class AVillainCharacter;
@@ -25,14 +27,6 @@ class NOGARAP_API AMainMenuGameMode : public AGameModeBase
 	AMenuCharacter* CurrentHero;
 	UPROPERTY()
 	AMenuCharacter* CurrentVillain;
-	UPROPERTY()
-	int32 HeroIndex;
-	UPROPERTY()
-	int32 VillainIndex;
-	UPROPERTY()
-	TArray<TSubclassOf<AMenuCharacter>> HeroKeys;
-	UPROPERTY()
-	TArray<TSubclassOf<AMenuCharacter>> VillainKeys;
 
 	UPROPERTY()
 	UMainMenuWidget* MainMenuWidget;
@@ -50,15 +44,13 @@ protected:
 	TSubclassOf<USkillsMenuWidget> SkillsWidgetClass;
 	UPROPERTY(EditDefaultsOnly)
 	TSoftObjectPtr<UWorld> GameLevel;
+	
 	UPROPERTY(EditDefaultsOnly)
-	TMap<TSubclassOf<AMenuCharacter>, TSubclassOf<ANogarapCharacter>> Heroes;
-	UPROPERTY(EditDefaultsOnly)
-	TMap<TSubclassOf<AMenuCharacter>, TSubclassOf<AVillainCharacter>> Villains;
+	FCharacterSelection Selection;
 
 	virtual void BeginPlay() override;
 
 public:
-	
 	UFUNCTION(BlueprintCallable)
 	void ShowMainWidget();
 	UFUNCTION(BlueprintCallable)
@@ -96,6 +88,6 @@ public:
 
 	void SetHeroStats(const FCharacterStats& Info) const;
 private:
-	void SpawnHero();
-	void SpawnVillain();
+	void SpawnHero(const TSubclassOf<AMenuCharacter> HeroClass);
+	void SpawnVillain(const TSubclassOf<AMenuCharacter> VillainClass);
 };

@@ -1,7 +1,7 @@
 ﻿#include "NogarapGameInstance.h"
 
 #include "Kismet/GameplayStatics.h"
-#include "nogarap/Data/Character/CharacterStats.h"
+#include "nogarap/Data/Character/Stats/CharacterStats.h"
 
 UNogarapGameInstance::UNogarapGameInstance()
 {
@@ -16,6 +16,7 @@ void UNogarapGameInstance::Load()
 		{
 			Settings = LoadedGame->Settings;
 			CharactersInfo = LoadedGame->Characters;
+			Hero = GetSaveMeta()->GetCharacterForSlot(CurrentSaveSlotIndex);
 		}
 	}
 	else
@@ -83,6 +84,7 @@ void UNogarapGameInstance::OnStart()
 			UGameplayStatics::LoadGameFromSlot(MetaSlotName, MetaSlotIndex)))
 		{
 			CurrentSaveSlotIndex = LoadedGame->GetMostRecentSlot();
+			Hero = LoadedGame->GetCharacterForSlot(CurrentSaveSlotIndex);
 		}
 	}
 
@@ -151,6 +153,12 @@ int32 UNogarapGameInstance::GetCurrentSaveSlot() const
 	return CurrentSaveSlotIndex;
 }
 
+void UNogarapGameInstance::SetCurrentCharacter(ECharacters Character)
+{
+	CurrentCharacter = Character;
+	Save();
+}
+
 void UNogarapGameInstance::SetCurrentSaveSlot(const int32 NewCurrent)
 {
 	CurrentSaveSlotIndex = NewCurrent;
@@ -180,6 +188,7 @@ void UNogarapGameInstance::Save() const
 		UGameplayStatics::LoadGameFromSlot(MetaSlotName, MetaSlotIndex)))
 	{
 		SaveGameInstance->UpdateSlot(CurrentSaveSlotIndex);
+		SaveGameInstance->SetCharacterForSlot(CurrentSaveSlotIndex, CurrentCharacter);
 
 		if (UGameplayStatics::SaveGameToSlot(SaveGameInstance, MetaSlotName, MetaSlotIndex))
 		{

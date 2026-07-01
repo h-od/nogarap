@@ -3,7 +3,7 @@
 #include "CoreMinimal.h"
 #include "InputActionValue.h"
 #include "GameFramework/Character.h"
-#include "nogarap/Data/Character/CharacterGameplay.h"
+#include "nogarap/Data/Character/Gameplay/CharacterGameplay.h"
 #include "NogarapCharacter.generated.h"
 
 class UGameOverWidget;

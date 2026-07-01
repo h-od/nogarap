@@ -1,7 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "CharacterStats.h"
+#include "nogarap/Data/Character/Stats/CharacterStats.h"
 #include "CharacterGameplay.generated.h"
 
 enum class ECharacters : uint8;
@@ -12,7 +12,7 @@ struct NOGARAP_API FCharacterGameplay
 	GENERATED_BODY()
 
 	FCharacterGameplay();
-	explicit FCharacterGameplay(const ECharacters Character, const FCharacterStats Info);
+	explicit FCharacterGameplay(const ECharacters Character, const FCharacterStats& Info);
 
 	UPROPERTY()
 	ECharacters CurrentCharacter;
