@@ -49,6 +49,8 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category="Animations")
 	UAnimMontage* HitAnim;
 	UPROPERTY(EditDefaultsOnly, Category="Animations")
+	UAnimMontage* StunnedAnim;
+	UPROPERTY(EditDefaultsOnly, Category="Animations")
 	UAnimationAsset* DeadAnim;
 
 	UPROPERTY(EditDefaultsOnly, Category="Weapon")
@@ -63,6 +65,8 @@ protected:
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Output") //STT
 	bool bIsDead = false;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Output") //STT
+	bool bIsStunned = false;
 	
 	AEnemyCharacter();
 
@@ -71,6 +75,10 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	float Attack();
+	UFUNCTION(BlueprintCallable)
+	void StartStun();
+	UFUNCTION(BlueprintCallable)
+	void StopStun();
 	
 	void HitGreen(const FVector& Vector);
 	void HitBlue(const FVector& Vector);

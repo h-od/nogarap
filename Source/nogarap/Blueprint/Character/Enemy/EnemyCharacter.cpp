@@ -4,6 +4,7 @@
 #include "Components/CapsuleComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Engine/World.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "nogarap/Blueprint/Character/Player/NogarapCharacter.h"
 #include "nogarap/Blueprint/GameMode/NogarapGameMode.h"
@@ -43,28 +44,36 @@ float AEnemyCharacter::Attack()
 	return Duration;
 }
 
+void AEnemyCharacter::StartStun()
+{
+	GetCharacterMovement()->StopMovementImmediately();
+	PlayAnimMontage(StunnedAnim);
+}
+
+void AEnemyCharacter::StopStun()
+{
+	bIsStunned = false;
+	StopAnimMontage(StunnedAnim);
+}
+
 void AEnemyCharacter::HitGreen(const FVector& Vector)
 {
-	
 	StopAnimMontage();
 	PlayAnimMontage(HitAnim);
 	//todo knockback
+	bIsStunned = true;
 }
 
 void AEnemyCharacter::HitBlue(const FVector& Vector)
 {
 	StopAnimMontage();
-	PlayAnimMontage(HitAnim);
-	// FVector Impact = 
-	//todo knockback + stun -> 
-	
+	//todo knockback
+	bIsStunned = true;
 }
 
 void AEnemyCharacter::HitRed(const FVector& Vector)
 {
-	//todo probs don't need param
-	StopAnimMontage();
-	PlayAnimMontage(HitAnim);
+	UpdateHealth(0.0f);
 }
 
 void AEnemyCharacter::UpdateHealth(const float Delta)

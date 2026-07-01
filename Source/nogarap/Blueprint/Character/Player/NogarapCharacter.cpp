@@ -446,7 +446,7 @@ TArray<AActor*> ANogarapCharacter::SphereTraceForEnemy(const float Radius)
 		UEngineTypes::ConvertToTraceType(ECC_Pawn),
 		false,
 		ToIgnore,
-		EDrawDebugTrace::Type::ForDuration,
+		EDrawDebugTrace::Type::None,
 		OutHits,
 		true,
 		FLinearColor::Red,

@@ -21,7 +21,7 @@ void AMinionCharacter::SetHealth(const float NewValue)
 	{
 		HealthWidget->SetHealth(Health / MaxHealth);
 	}
-	if (NewValue == 0)
+	if (NewValue == 0 and GameMode)
 	{
 		GameMode->MinionDestroyed();
 	}
