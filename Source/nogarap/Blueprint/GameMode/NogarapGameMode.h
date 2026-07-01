@@ -37,33 +37,43 @@ class NOGARAP_API ANogarapGameMode : public AGameModeBase
 	bool bVillainDestroyed = false;
 	
 	UPROPERTY()
+	int32 SpawnPointZeroCount;
+	UPROPERTY()
 	int32 SpawnPointZeroMinionCount;
 	UPROPERTY()
 	int32 SpawnPointZeroBigMinionCount;
+	UPROPERTY()
+	int32 SpawnPoint0Destroyed;
 	
+	UPROPERTY()
+	int32 SpawnPointOneCount;
 	UPROPERTY()
 	int32 SpawnPointOneMinionCount;
 	UPROPERTY()
 	int32 SpawnPointOneBigMinionCount;
+	UPROPERTY()
+	int32 SpawnPoint1Destroyed;
 	
+	UPROPERTY()
+	int32 SpawnPointTwoCount;
 	UPROPERTY()
 	int32 SpawnPointTwoMinionCount;
 	UPROPERTY()
 	int32 SpawnPointTwoBigMinionCount;
+	UPROPERTY()
+	int32 SpawnPoint2Destroyed;
 	
+	UPROPERTY()
+	int32 SpawnPointThreeCount;
 	UPROPERTY()
 	int32 SpawnPointThreeMinionCount;
 	UPROPERTY()
 	int32 SpawnPointThreeBigMinionCount;
+	UPROPERTY()
+	int32 SpawnPoint3Destroyed;
 
 	UPROPERTY()
-	FTimerHandle SpawnPoint0TimerHandle;
-	UPROPERTY()
-	FTimerHandle SpawnPoint1TimerHandle;
-	UPROPERTY()
-	FTimerHandle SpawnPoint2TimerHandle;
-	UPROPERTY()
-	FTimerHandle SpawnPoint3TimerHandle;
+	FTimerHandle SpawnTimerHandle;
 	UPROPERTY()
 	FTimerHandle WaveCompleteTimerHandle;
 	UPROPERTY()
@@ -81,7 +91,7 @@ protected:
 public:
 	ANogarapGameMode();
 
-	void MinionDestroyed();
+	void MinionDestroyed(int32 SpawnIndex);
 	void VillainDestroyed();
 
 protected:
@@ -93,7 +103,8 @@ public:
 private:
 	void GatherSpawnPoints();
 	void StartSpawn();
-	
+	void Spawn();
+
 	UFUNCTION()
 	void SpawnPointZero();
 	UFUNCTION()

@@ -21,8 +21,24 @@ ANogarapGameMode::ANogarapGameMode()
 	MinionStats.Add(FBotStats(4, 3, 5, 5, 10, 1, 2));
 }
 
-void ANogarapGameMode::MinionDestroyed()
+void ANogarapGameMode::MinionDestroyed(const int32 SpawnIndex)
 {
+	switch (SpawnIndex)
+	{
+	case 0:
+		SpawnPoint0Destroyed++;
+		break;
+	case 1:
+		SpawnPoint1Destroyed++;
+		break;
+	case 2:
+		SpawnPoint2Destroyed++;
+		break;
+	case 3:
+		SpawnPoint3Destroyed++;
+		break;
+	default: ; //TODO panic
+	}
 	MinionsDestroyed++;
 }
 
@@ -79,21 +95,43 @@ void ANogarapGameMode::GatherSpawnPoints()
 
 void ANogarapGameMode::StartSpawn()
 {
-	//TODO: maybe limit how many can spawn to 1 big and 3 small per spawner
 	PlayerController->SetWave(CurrentWave);
 	GetWorldTimerManager().ClearTimer(StartWaveTimerHandle);
 
-	GetWorldTimerManager().ClearTimer(SpawnPoint0TimerHandle);
-	GetWorldTimerManager().SetTimer(SpawnPoint0TimerHandle, this, &ANogarapGameMode::SpawnPointZero, 2.5f, true);
-	GetWorldTimerManager().ClearTimer(SpawnPoint1TimerHandle);
-	GetWorldTimerManager().SetTimer(SpawnPoint1TimerHandle, this, &ANogarapGameMode::SpawnPointOne, 2.5f, true);
-	GetWorldTimerManager().ClearTimer(SpawnPoint2TimerHandle);
-	GetWorldTimerManager().SetTimer(SpawnPoint2TimerHandle, this, &ANogarapGameMode::SpawnPointTwo, 2.5f, true);
-	GetWorldTimerManager().ClearTimer(SpawnPoint3TimerHandle);
-	GetWorldTimerManager().SetTimer(SpawnPoint3TimerHandle, this, &ANogarapGameMode::SpawnPointThree, 2.5f, true);
+	GetWorldTimerManager().ClearTimer(SpawnTimerHandle);
+	GetWorldTimerManager().SetTimer(SpawnTimerHandle, this, &ANogarapGameMode::Spawn, 1.0f, true);
 
 	GetWorldTimerManager().ClearTimer(WaveCompleteTimerHandle);
 	GetWorldTimerManager().SetTimer(WaveCompleteTimerHandle, this, &ANogarapGameMode::CheckWaveComplete, 5.0f, true);
+}
+
+void ANogarapGameMode::Spawn()
+{
+	constexpr int32 BotSpawnCap = 3;
+	UKismetSystemLibrary::PrintString(GetWorld(), "SpawnPoint 0: Spawned:" + FString::FromInt(SpawnPointZeroCount) + ", Destroyed: " + FString::FromInt(SpawnPoint0Destroyed), true, true,
+	                                  FLinearColor::Red, 5.0f);
+	UKismetSystemLibrary::PrintString(GetWorld(), "SpawnPoint 1: Spawned:" + FString::FromInt(SpawnPointOneCount) + ", Destroyed: " + FString::FromInt(SpawnPoint1Destroyed), true, true,
+	                                  FLinearColor::Red, 5.0f);
+	UKismetSystemLibrary::PrintString(GetWorld(), "SpawnPoint 2: Spawned:" + FString::FromInt(SpawnPointTwoCount) + ", Destroyed: " + FString::FromInt(SpawnPoint2Destroyed), true, true,
+	                                  FLinearColor::Red, 5.0f);
+	UKismetSystemLibrary::PrintString(GetWorld(), "SpawnPoint 3: Spawned:" + FString::FromInt(SpawnPointThreeCount) + ", Destroyed: " + FString::FromInt(SpawnPoint3Destroyed), true, true,
+	                                  FLinearColor::Red, 5.0f);
+	if (SpawnPointZeroCount - SpawnPoint0Destroyed < BotSpawnCap)
+	{
+		SpawnPointZero();
+	}
+	if (SpawnPointOneCount - SpawnPoint1Destroyed < BotSpawnCap)
+	{
+		SpawnPointOne();
+	}
+	if (SpawnPointTwoCount - SpawnPoint2Destroyed < BotSpawnCap)
+	{
+		SpawnPointTwo();
+	}
+	if (SpawnPointThreeCount - SpawnPoint3Destroyed < BotSpawnCap)
+	{
+		SpawnPointThree();
+	}
 }
 
 void ANogarapGameMode::SpawnPointZero()
@@ -107,7 +145,10 @@ void ANogarapGameMode::SpawnPointZero()
 		{
 			MinionCharacter->SetStats(MinionStats[CurrentWave].MinionHealth, MinionStats[CurrentWave].MinionDamage);
 			SpawnPointZeroMinionCount++;
+			SpawnPointZeroCount++;
+			MinionCharacter->SpawnPoint = 0;
 		}
+		return;
 	}
 
 	//big minions
@@ -117,12 +158,9 @@ void ANogarapGameMode::SpawnPointZero()
 		{
 			MinionCharacter->SetStats(MinionStats[CurrentWave].BigMinionHealth, MinionStats[CurrentWave].BigMinionDamage);
 			SpawnPointZeroBigMinionCount++;
+			SpawnPointZeroCount++;
+			MinionCharacter->SpawnPoint = 0;
 		}
-	}
-
-	if (SpawnPointZeroMinionCount == MinionStats[CurrentWave].MinionCount and SpawnPointZeroBigMinionCount == MinionStats[CurrentWave].BigMinionCount)
-	{
-		GetWorldTimerManager().ClearTimer(SpawnPoint0TimerHandle);
 	}
 }
 
@@ -135,7 +173,10 @@ void ANogarapGameMode::SpawnPointOne()
 		{
 			MinionCharacter->SetStats(MinionStats[CurrentWave].MinionHealth, MinionStats[CurrentWave].MinionDamage);
 			SpawnPointOneMinionCount++;
+			SpawnPointOneCount++;
+			MinionCharacter->SpawnPoint = 1;
 		}
+		return;
 	}
 
 	//big minions
@@ -145,12 +186,9 @@ void ANogarapGameMode::SpawnPointOne()
 		{
 			MinionCharacter->SetStats(MinionStats[CurrentWave].BigMinionHealth, MinionStats[CurrentWave].BigMinionDamage);
 			SpawnPointOneBigMinionCount++;
+			SpawnPointOneCount++;
+			MinionCharacter->SpawnPoint = 1;
 		}
-	}
-
-	if (SpawnPointOneMinionCount == MinionStats[CurrentWave].MinionCount and SpawnPointOneBigMinionCount == MinionStats[CurrentWave].BigMinionCount)
-	{
-		GetWorldTimerManager().ClearTimer(SpawnPoint1TimerHandle);
 	}
 }
 
@@ -163,7 +201,10 @@ void ANogarapGameMode::SpawnPointTwo()
 		{
 			MinionCharacter->SetStats(MinionStats[CurrentWave].MinionHealth, MinionStats[CurrentWave].MinionDamage);
 			SpawnPointTwoMinionCount++;
+			SpawnPointTwoCount++;
+			MinionCharacter->SpawnPoint = 2;
 		}
+		return;
 	}
 
 	//big minions
@@ -173,12 +214,9 @@ void ANogarapGameMode::SpawnPointTwo()
 		{
 			MinionCharacter->SetStats(MinionStats[CurrentWave].BigMinionHealth, MinionStats[CurrentWave].BigMinionDamage);
 			SpawnPointTwoBigMinionCount++;
+			SpawnPointTwoCount++;
+			MinionCharacter->SpawnPoint = 2;
 		}
-	}
-
-	if (SpawnPointTwoMinionCount == MinionStats[CurrentWave].MinionCount and SpawnPointTwoBigMinionCount == MinionStats[CurrentWave].BigMinionCount)
-	{
-		GetWorldTimerManager().ClearTimer(SpawnPoint2TimerHandle);
 	}
 }
 
@@ -191,7 +229,10 @@ void ANogarapGameMode::SpawnPointThree()
 		{
 			MinionCharacter->SetStats(MinionStats[CurrentWave].MinionHealth, MinionStats[CurrentWave].MinionDamage);
 			SpawnPointThreeMinionCount++;
+			SpawnPointThreeCount++;
+			MinionCharacter->SpawnPoint = 3;
 		}
+		return;
 	}
 
 	//big minions
@@ -201,12 +242,9 @@ void ANogarapGameMode::SpawnPointThree()
 		{
 			MinionCharacter->SetStats(MinionStats[CurrentWave].BigMinionHealth, MinionStats[CurrentWave].BigMinionDamage);
 			SpawnPointThreeBigMinionCount++;
+			SpawnPointThreeCount++;
+			MinionCharacter->SpawnPoint = 3;
 		}
-	}
-
-	if (SpawnPointThreeMinionCount == MinionStats[CurrentWave].MinionCount and SpawnPointThreeBigMinionCount == MinionStats[CurrentWave].BigMinionCount)
-	{
-		GetWorldTimerManager().ClearTimer(SpawnPoint3TimerHandle);
 	}
 }
 
@@ -218,7 +256,19 @@ void ANogarapGameMode::CheckWaveComplete()
 		SpawnPointThreeMinionCount + SpawnPointThreeBigMinionCount;
 	const int32 MinionsThatShouldHaveSpawned = (MinionStats[CurrentWave].BigMinionCount + MinionStats[CurrentWave].MinionCount) * 4;
 
-	if (MinionsDestroyed == SpawnedMinionsCount and MinionsDestroyed == MinionsThatShouldHaveSpawned)
+	if (SpawnedMinionsCount == MinionsThatShouldHaveSpawned)
+	{
+		GetWorldTimerManager().ClearTimer(SpawnTimerHandle);
+	}
+	else
+	{
+		// if timer stopped for whatever reason, restart it
+		if (!GetWorldTimerManager().IsTimerActive(SpawnTimerHandle))
+		{
+			GetWorldTimerManager().SetTimer(SpawnTimerHandle, this, &ANogarapGameMode::Spawn, 1.0f, true);
+		}
+	}
+	if (MinionsDestroyed == MinionsThatShouldHaveSpawned)
 	{
 		GetWorldTimerManager().ClearTimer(WaveCompleteTimerHandle);
 

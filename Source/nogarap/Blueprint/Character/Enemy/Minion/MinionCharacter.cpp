@@ -23,6 +23,6 @@ void AMinionCharacter::SetHealth(const float NewValue)
 	}
 	if (NewValue == 0 and GameMode)
 	{
-		GameMode->MinionDestroyed();
+		GameMode->MinionDestroyed(SpawnPoint);
 	}
 }

@@ -356,9 +356,9 @@ void ANogarapCharacter::DoWeaponTrace()
 
 	for (const FHitResult AttackHit : AttackHits)
 	{
-		if (!HitActor.Contains(AttackHit.GetActor()))
+		if (AActor* ActorToDamage = AttackHit.GetActor(); !ActorToDamage->IsActorBeingDestroyed() and !HitActor.Contains(ActorToDamage))
 		{
-			if (AttackHit.GetActor()->IsA(AEnemyCharacter::StaticClass()))
+			if (ActorToDamage->IsA(AEnemyCharacter::StaticClass()))
 			{
 				Combo++;
 				NogarapController->SetCombo(Combo);
@@ -372,8 +372,8 @@ void ANogarapCharacter::DoWeaponTrace()
 
 
 				NogarapController->SetScore(NewValue);
-				HitActor.AddUnique(AttackHit.GetActor());
-				UGameplayStatics::ApplyPointDamage(AttackHit.GetActor(), GameplayComponent->GetDamage(), AttackHit.ImpactPoint, AttackHit, GetController(), this, nullptr);
+				HitActor.AddUnique(ActorToDamage);
+				UGameplayStatics::ApplyPointDamage(ActorToDamage, GameplayComponent->GetDamage(), AttackHit.ImpactPoint, AttackHit, GetController(), this, nullptr);
 			}
 		}
 	}
