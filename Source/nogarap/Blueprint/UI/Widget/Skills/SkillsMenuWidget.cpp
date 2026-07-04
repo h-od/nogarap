@@ -77,7 +77,7 @@ void USkillsMenuWidget::UpgradeRed()
 
 void USkillsMenuWidget::UpgradeBlue()
 {
-	//TODO MaxDefensive, DefensiveDamage, OffensiveEffect, DefensiveTime
+	// MaxDefensive, DefensiveDamage, OffensiveEffect, DefensiveTime
 	if (Info.BlueLevel >= 9)
 	{
 		return;
@@ -94,7 +94,7 @@ void USkillsMenuWidget::UpgradeBlue()
 
 void USkillsMenuWidget::UpgradeGreen()
 {
-	//TODO Heal, MaxHealth, MaxStamina, StaminaRegenRate
+	// Heal, MaxHealth, MaxStamina, StaminaRegenRate
 	if (Info.GreenLevel >= 9)
 	{
 		return;
@@ -105,7 +105,7 @@ void USkillsMenuWidget::UpgradeGreen()
 	Info.HealTime *= 1.5f;
 	Info.MaxHealth *= 1.5f;
 	Info.MaxStamina *= 1.5f;
-	Info.StaminaRegenRate -= 0.05f; // todo?
+	Info.StaminaRegenRate -= 0.05f; 
 	SetHeroStats(Info);
 	GameInstance->UpdateCurrentCharacter(Info);
 	GameMode->SetHeroStats(Info);
@@ -113,7 +113,7 @@ void USkillsMenuWidget::UpgradeGreen()
 
 void USkillsMenuWidget::UpgradeAttack()
 {
-	//TODO Damage, Attack Effort
+	// Damage, Attack Effort
 	if (Info.AttackLevel >= 9)
 	{
 		return;
@@ -129,7 +129,7 @@ void USkillsMenuWidget::UpgradeAttack()
 
 void USkillsMenuWidget::UpgradeDefense()
 {
-	//TODO BlockEffort, BlockEffect, PerfectBlockWindow-> 0.1 first
+	// BlockEffort, BlockEffect, PerfectBlockWindow-> 0.1 first
 	if (Info.DefenseLevel >= 9)
 	{
 		return;

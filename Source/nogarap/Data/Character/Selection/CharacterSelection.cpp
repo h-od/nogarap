@@ -71,9 +71,9 @@ TSubclassOf<AMenuCharacter> FCharacterSelection::PreviousHero()
 
 TSubclassOf<AMenuCharacter> FCharacterSelection::NextVillain()
 {
-	if (++CurrentHeroIndex >= IndexedHeroes.Num())
+	if (++CurrentVillainIndex >= IndexedVillains.Num())
 	{
-		CurrentHeroIndex = 0;
+		CurrentVillainIndex = 0;
 	}
 	CurrentVillain = IndexedVillains[CurrentVillainIndex];
 	return CurrentVillain.Menu;

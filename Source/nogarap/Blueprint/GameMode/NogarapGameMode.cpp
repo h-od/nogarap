@@ -108,14 +108,14 @@ void ANogarapGameMode::StartSpawn()
 void ANogarapGameMode::Spawn()
 {
 	constexpr int32 BotSpawnCap = 3;
-	UKismetSystemLibrary::PrintString(GetWorld(), "SpawnPoint 0: Spawned:" + FString::FromInt(SpawnPointZeroCount) + ", Destroyed: " + FString::FromInt(SpawnPoint0Destroyed), true, true,
-	                                  FLinearColor::Red, 5.0f);
-	UKismetSystemLibrary::PrintString(GetWorld(), "SpawnPoint 1: Spawned:" + FString::FromInt(SpawnPointOneCount) + ", Destroyed: " + FString::FromInt(SpawnPoint1Destroyed), true, true,
-	                                  FLinearColor::Red, 5.0f);
-	UKismetSystemLibrary::PrintString(GetWorld(), "SpawnPoint 2: Spawned:" + FString::FromInt(SpawnPointTwoCount) + ", Destroyed: " + FString::FromInt(SpawnPoint2Destroyed), true, true,
-	                                  FLinearColor::Red, 5.0f);
-	UKismetSystemLibrary::PrintString(GetWorld(), "SpawnPoint 3: Spawned:" + FString::FromInt(SpawnPointThreeCount) + ", Destroyed: " + FString::FromInt(SpawnPoint3Destroyed), true, true,
-	                                  FLinearColor::Red, 5.0f);
+	// UKismetSystemLibrary::PrintString(GetWorld(), "SpawnPoint 0: Spawned:" + FString::FromInt(SpawnPointZeroCount) + ", Destroyed: " + FString::FromInt(SpawnPoint0Destroyed), true, true,
+	//                                   FLinearColor::Red, 5.0f);
+	// UKismetSystemLibrary::PrintString(GetWorld(), "SpawnPoint 1: Spawned:" + FString::FromInt(SpawnPointOneCount) + ", Destroyed: " + FString::FromInt(SpawnPoint1Destroyed), true, true,
+	//                                   FLinearColor::Red, 5.0f);
+	// UKismetSystemLibrary::PrintString(GetWorld(), "SpawnPoint 2: Spawned:" + FString::FromInt(SpawnPointTwoCount) + ", Destroyed: " + FString::FromInt(SpawnPoint2Destroyed), true, true,
+	//                                   FLinearColor::Red, 5.0f);
+	// UKismetSystemLibrary::PrintString(GetWorld(), "SpawnPoint 3: Spawned:" + FString::FromInt(SpawnPointThreeCount) + ", Destroyed: " + FString::FromInt(SpawnPoint3Destroyed), true, true,
+	//                                   FLinearColor::Red, 5.0f);
 	if (SpawnPointZeroCount - SpawnPoint0Destroyed < BotSpawnCap)
 	{
 		SpawnPointZero();
@@ -140,7 +140,6 @@ void ANogarapGameMode::SpawnPointZero()
 	//small minions
 	if (SpawnPointZeroMinionCount < MinionStats[CurrentWave].MinionCount)
 	{
-		//TODO set damage and health
 		if (AMinionCharacter* MinionCharacter = GetWorld()->SpawnActor<AMinionCharacter>(MinionClass, SpawnPoints[0]->GetSpawnPoint()))
 		{
 			MinionCharacter->SetStats(MinionStats[CurrentWave].MinionHealth, MinionStats[CurrentWave].MinionDamage);

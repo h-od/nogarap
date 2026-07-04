@@ -68,7 +68,6 @@ void ANogarapCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 
 float ANogarapCharacter::TakeDamage(const float Damage, const FDamageEvent& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
-	//TODO when successful block, fill up defensive charge
 	if (bIsDead)
 	{
 		return Super::TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
@@ -258,7 +257,6 @@ void ANogarapCharacter::JumpStopped()
 
 void ANogarapCharacter::AttackStarted()
 {
-	//TODO when successful attack, fill up offensive charge
 	if (bIsAttacking)
 	{
 		bSaveAttack = true;
@@ -317,8 +315,6 @@ void ANogarapCharacter::StartWeaponTrace(const float Duration)
 
 void ANogarapCharacter::DoWeaponTrace()
 {
-	//TODO: damage actor once during an attack, but immediately
-
 	WeaponTraceCurrent += WeaponTraceInterval;
 	if (WeaponTraceCurrent >= WeaponTraceDuration)
 	{
@@ -422,7 +418,7 @@ void ANogarapCharacter::OffensiveStarted()
 	NogarapController->SetRed(0.0f);
 	for (TArray<AActor*> HitActors = SphereTraceForEnemy(250.0f); AActor* Actor : HitActors)
 	{
-		//TODO Apply point damage?
+		//TODO Apply point damage? dont need forward vector
 		Cast<AEnemyCharacter>(Actor)->HitRed(GetActorForwardVector());
 	}
 }
@@ -433,7 +429,7 @@ void ANogarapCharacter::DefensiveStarted()
 	{
 		return;
 	}
-	// todo knockback/ stun nearby players and decreased damaged taken for X seconds
+	
 	GameplayComponent->DefensiveStart();
 	StartWeaponTrace(PlayAnimMontage(DefensiveAnim));
 	NogarapController->SetBlue(0.0f);
@@ -478,7 +474,7 @@ TArray<AActor*> ANogarapCharacter::SphereTraceForEnemy(const float Radius)
 				HitActors.AddUnique(Actor);
 			}
 		}
-		UKismetSystemLibrary::PrintString(GetWorld(), "ANogarapCharacter::HealStarted " + FString::FromInt(HitActors.Num()), true, true, FLinearColor::Red, 5.0f);
+		// UKismetSystemLibrary::PrintString(GetWorld(), "ANogarapCharacter::HealStarted " + FString::FromInt(HitActors.Num()), true, true, FLinearColor::Red, 5.0f);
 	}
 	return HitActors;
 }
