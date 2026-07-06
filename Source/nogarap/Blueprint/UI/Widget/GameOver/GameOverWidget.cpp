@@ -2,6 +2,12 @@
 
 #include "Kismet/GameplayStatics.h"
 
+void UGameOverWidget::NativePreConstruct()
+{
+	Super::NativePreConstruct();
+	GetOwningPlayer()->SetInputMode(FInputModeUIOnly());
+}
+
 void UGameOverWidget::Reset() const
 {
 	UGameplayStatics::OpenLevelBySoftObjectPtr(GetWorld(), Arena, true, "");

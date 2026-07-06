@@ -15,6 +15,8 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	TSoftObjectPtr<UWorld> Arena;
 	
+	virtual void NativePreConstruct() override;
+
 	UFUNCTION(BlueprintCallable)
 	void Reset() const;
 

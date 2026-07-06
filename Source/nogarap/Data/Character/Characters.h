@@ -20,7 +20,7 @@ enum class ECharacters : uint8
 	Serath UMETA(DisplayName = "Serath"),
 	Sevarog UMETA(DisplayName = "Sevarog"),
 	Shinbi UMETA(DisplayName = "Shinbi"),
+	Terra UMETA(DisplayName = "Terra"), 
 	Wukong UMETA(DisplayName = "Wukong"),
-	Terra UMETA(DisplayName = "Terra"),
 	Yin UMETA(DisplayName = "Yin")
 };

@@ -70,7 +70,7 @@ float ANogarapCharacter::TakeDamage(const float Damage, const FDamageEvent& Dama
 {
 	if (bIsDead)
 	{
-		return Super::TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
+		return 0.0f;
 	}
 	if (GameplayComponent->CanPerfectBlock())
 	{
@@ -84,6 +84,7 @@ float ANogarapCharacter::TakeDamage(const float Damage, const FDamageEvent& Dama
 	{
 		Combo = 0;
 		NogarapController->SetCombo(Combo);
+		
 		if (CurrentAnim)
 		{
 			StopAnimMontage(CurrentAnim);

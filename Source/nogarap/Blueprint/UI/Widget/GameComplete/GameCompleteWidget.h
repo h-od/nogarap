@@ -13,6 +13,8 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	TSoftObjectPtr<UWorld> MainMenu;
 	
+	virtual void NativePreConstruct() override;
+	
 	UFUNCTION(BlueprintCallable)
 	void GoToMainMenu() const;
 
