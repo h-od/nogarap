@@ -20,7 +20,6 @@ public:
 	int32 SpawnPoint;
 	
 	virtual void BeginPlay() override;
-	void SetStats(int32 NewHealth, int32 NewDamage);
 
 protected:
 	virtual void SetHealth(float NewValue) override;

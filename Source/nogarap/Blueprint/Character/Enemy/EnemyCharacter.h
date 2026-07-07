@@ -30,17 +30,17 @@ class NOGARAP_API AEnemyCharacter : public ACharacter
 	
 	UPROPERTY()
 	FTimerHandle DestroyTimerHandle;
+	
+	UPROPERTY() 
+	float Health = 1.0f;
+	UPROPERTY()
+	float MaxHealth = 1.0f;
+	UPROPERTY()
+	float DealDamage = 1.0f;
 
 protected:
 	UPROPERTY()
 	ANogarapGameMode* GameMode;
-	
-	UPROPERTY(EditDefaultsOnly) //TODO Move to GameMode/EnemyInfo
-	float Health = 1.0f;
-	UPROPERTY(EditDefaultsOnly)
-	float MaxHealth = 1.0f;
-	UPROPERTY(EditDefaultsOnly)
-	float DealDamage = 1.0f;
 
 	UPROPERTY(EditDefaultsOnly, Category="Animations")
 	UAnimMontage* AttackRightAnim;
@@ -72,6 +72,8 @@ public:
 
 	virtual void BeginPlay() override;
 	virtual float TakeDamage(float Damage, const FDamageEvent& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
+	
+	void SetStats(float NewDamage, float NewHealth);
 
 	UFUNCTION(BlueprintCallable)
 	float Attack();
@@ -84,6 +86,7 @@ public:
 	void HitBlue(const FVector& Vector);
 	void HitRed(const FVector& Vector);
 
+	
 protected:
 	virtual void SetHealth(float NewValue) PURE_VIRTUAL(AEnemyCharacter::SetHealth);
 

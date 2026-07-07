@@ -2,8 +2,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include "nogarap/Data/Character/Enemy/EnemyStats.h"
 #include "NogarapGameMode.generated.h"
 
+enum class EDifficulty : uint8;
+struct FEnemyStats;
 class UGameCompleteWidget;
 class ANogarapCharacter;
 class ANogarapController;
@@ -21,6 +24,9 @@ class NOGARAP_API ANogarapGameMode : public AGameModeBase
 	UNogarapGameInstance* GameInstance;
 	UPROPERTY()
 	ANogarapController* PlayerController;
+	
+	UPROPERTY()
+	EDifficulty Difficulty;
 
 	UPROPERTY()
 	TMap<int32, ASpawnPoint*> SpawnPoints;
@@ -83,7 +89,13 @@ protected:
 	TSubclassOf<AMinionCharacter> MinionClass;
 	UPROPERTY(EditDefaultsOnly, Category="Config")
 	TSubclassOf<AMinionCharacter> BigMinionClass;
-	
+	UPROPERTY(EditDefaultsOnly, Category="EnemyStats")
+	FEnemyStats Villain;
+	UPROPERTY(EditDefaultsOnly, Category="EnemyStats")
+	FEnemyStats WeeMinion;
+	UPROPERTY(EditDefaultsOnly, Category="EnemyStats")
+	FEnemyStats BigMinion;
+
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UGameCompleteWidget> GameCompleteWidgetClass;
 
@@ -112,6 +124,12 @@ private:
 	void SpawnPointTwo();
 	UFUNCTION()
 	void SpawnPointThree();
+	
+	bool SpawnWeeMinion(int32 SpawnIndex);
+	bool SpawnBigMinion(int32 SpawnIndex);
+	
 	UFUNCTION()
 	void CheckWaveComplete();
+	
+	float GetDifficultyModifier() const;
 };

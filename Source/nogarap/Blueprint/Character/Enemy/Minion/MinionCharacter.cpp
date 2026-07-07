@@ -8,18 +8,11 @@ void AMinionCharacter::BeginPlay()
 	Super::BeginPlay();
 }
 
-void AMinionCharacter::SetStats(const int32 NewHealth, const int32 NewDamage)
-{
-	Health = NewHealth;
-	MaxHealth = NewHealth;
-	DealDamage = NewDamage;
-}
-
 void AMinionCharacter::SetHealth(const float NewValue)
 {
 	if (HealthWidget)
 	{
-		HealthWidget->SetHealth(Health / MaxHealth);
+		HealthWidget->SetHealth(NewValue);
 	}
 	if (NewValue == 0 and GameMode)
 	{

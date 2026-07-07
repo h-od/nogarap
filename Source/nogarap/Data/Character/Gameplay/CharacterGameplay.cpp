@@ -48,7 +48,7 @@ int32 FCharacterGameplay::UpdateScore(const int32 Delta)
 
 float FCharacterGameplay::GetDifficultyMultiplier() const
 {
-	float Multiplier;
+	float Multiplier = 1.0f;;
 	switch (Info.Difficulty)
 	{
 	case EDifficulty::Easy:
@@ -64,8 +64,7 @@ float FCharacterGameplay::GetDifficultyMultiplier() const
 		Multiplier = 2.5f;
 		break;
 	}
-
-
+	
 	return Multiplier;
 }
 

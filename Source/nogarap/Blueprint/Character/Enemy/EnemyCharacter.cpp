@@ -31,6 +31,13 @@ float AEnemyCharacter::TakeDamage(const float Damage, const FDamageEvent& Damage
 	return Super::TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
 }
 
+void AEnemyCharacter::SetStats(const float NewDamage, const float NewHealth)
+{
+	MaxHealth = NewHealth;
+	Health = NewHealth;
+	DealDamage = NewDamage;
+}
+
 float AEnemyCharacter::Attack()
 {
 	bShouldAttackRight = !bShouldAttackRight;

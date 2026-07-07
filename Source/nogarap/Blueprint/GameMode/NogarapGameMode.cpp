@@ -14,11 +14,11 @@
 
 ANogarapGameMode::ANogarapGameMode()
 {
-	MinionStats.Add(FBotStats(0, 3, 0, 5, 0, 1, 0));
-	MinionStats.Add(FBotStats(1, 5, 1, 5, 10, 1, 2));
-	MinionStats.Add(FBotStats(2, 5, 3, 5, 10, 1, 2));
-	MinionStats.Add(FBotStats(3, 3, 10, 5, 10, 1, 2));
-	MinionStats.Add(FBotStats(4, 3, 5, 5, 10, 1, 2));
+	MinionStats.Add(FBotStats(0, 3, 0));
+	MinionStats.Add(FBotStats(1, 5, 1));
+	MinionStats.Add(FBotStats(2, 5, 3));
+	MinionStats.Add(FBotStats(3, 3, 1));
+	MinionStats.Add(FBotStats(4, 3, 5));
 }
 
 void ANogarapGameMode::MinionDestroyed(const int32 SpawnIndex)
@@ -65,10 +65,12 @@ void ANogarapGameMode::PostLogin(APlayerController* NewPlayer)
 	PlayerController = Cast<ANogarapController>(NewPlayer);
 	if (Character)
 	{
+		const FCharacterStats Info = GameInstance->GetStatsForCurrentCharacter();
+		Difficulty = Info.Difficulty;
 		Character->SetStats(
 			FCharacterGameplay(
 				GameInstance->Hero,
-				GameInstance->GetStatsForCurrentCharacter()
+				Info
 			)
 		);
 		PlayerController->Possess(Character);
@@ -107,15 +109,8 @@ void ANogarapGameMode::StartSpawn()
 
 void ANogarapGameMode::Spawn()
 {
-	constexpr int32 BotSpawnCap = 3;
-	// UKismetSystemLibrary::PrintString(GetWorld(), "SpawnPoint 0: Spawned:" + FString::FromInt(SpawnPointZeroCount) + ", Destroyed: " + FString::FromInt(SpawnPoint0Destroyed), true, true,
-	//                                   FLinearColor::Red, 5.0f);
-	// UKismetSystemLibrary::PrintString(GetWorld(), "SpawnPoint 1: Spawned:" + FString::FromInt(SpawnPointOneCount) + ", Destroyed: " + FString::FromInt(SpawnPoint1Destroyed), true, true,
-	//                                   FLinearColor::Red, 5.0f);
-	// UKismetSystemLibrary::PrintString(GetWorld(), "SpawnPoint 2: Spawned:" + FString::FromInt(SpawnPointTwoCount) + ", Destroyed: " + FString::FromInt(SpawnPoint2Destroyed), true, true,
-	//                                   FLinearColor::Red, 5.0f);
-	// UKismetSystemLibrary::PrintString(GetWorld(), "SpawnPoint 3: Spawned:" + FString::FromInt(SpawnPointThreeCount) + ", Destroyed: " + FString::FromInt(SpawnPoint3Destroyed), true, true,
-	//                                   FLinearColor::Red, 5.0f);
+	constexpr int32 BotSpawnCap = 1;
+
 	if (SpawnPointZeroCount - SpawnPoint0Destroyed < BotSpawnCap)
 	{
 		SpawnPointZero();
@@ -136,16 +131,14 @@ void ANogarapGameMode::Spawn()
 
 void ANogarapGameMode::SpawnPointZero()
 {
-	//TODO this spawn logic is horrific, need to optimize code and should probably pool these but w/e just getting it working for now
+	//TODO this better. should probably pool these but w/e just getting it working for now
 	//small minions
 	if (SpawnPointZeroMinionCount < MinionStats[CurrentWave].MinionCount)
 	{
-		if (AMinionCharacter* MinionCharacter = GetWorld()->SpawnActor<AMinionCharacter>(MinionClass, SpawnPoints[0]->GetSpawnPoint()))
+		if (SpawnWeeMinion(0))
 		{
-			MinionCharacter->SetStats(MinionStats[CurrentWave].MinionHealth, MinionStats[CurrentWave].MinionDamage);
 			SpawnPointZeroMinionCount++;
 			SpawnPointZeroCount++;
-			MinionCharacter->SpawnPoint = 0;
 		}
 		return;
 	}
@@ -153,12 +146,10 @@ void ANogarapGameMode::SpawnPointZero()
 	//big minions
 	if (SpawnPointZeroBigMinionCount < MinionStats[CurrentWave].BigMinionCount)
 	{
-		if (AMinionCharacter* MinionCharacter = GetWorld()->SpawnActor<AMinionCharacter>(BigMinionClass, SpawnPoints[0]->GetSpawnPoint()))
+		if (SpawnBigMinion(0))
 		{
-			MinionCharacter->SetStats(MinionStats[CurrentWave].BigMinionHealth, MinionStats[CurrentWave].BigMinionDamage);
 			SpawnPointZeroBigMinionCount++;
 			SpawnPointZeroCount++;
-			MinionCharacter->SpawnPoint = 0;
 		}
 	}
 }
@@ -168,12 +159,10 @@ void ANogarapGameMode::SpawnPointOne()
 	//small minions
 	if (SpawnPointOneMinionCount < MinionStats[CurrentWave].MinionCount)
 	{
-		if (AMinionCharacter* MinionCharacter = GetWorld()->SpawnActor<AMinionCharacter>(MinionClass, SpawnPoints[1]->GetSpawnPoint()))
+		if (SpawnWeeMinion(1))
 		{
-			MinionCharacter->SetStats(MinionStats[CurrentWave].MinionHealth, MinionStats[CurrentWave].MinionDamage);
 			SpawnPointOneMinionCount++;
 			SpawnPointOneCount++;
-			MinionCharacter->SpawnPoint = 1;
 		}
 		return;
 	}
@@ -181,12 +170,10 @@ void ANogarapGameMode::SpawnPointOne()
 	//big minions
 	if (SpawnPointOneBigMinionCount < MinionStats[CurrentWave].BigMinionCount)
 	{
-		if (AMinionCharacter* MinionCharacter = GetWorld()->SpawnActor<AMinionCharacter>(BigMinionClass, SpawnPoints[1]->GetSpawnPoint()))
+		if (SpawnBigMinion(1))
 		{
-			MinionCharacter->SetStats(MinionStats[CurrentWave].BigMinionHealth, MinionStats[CurrentWave].BigMinionDamage);
 			SpawnPointOneBigMinionCount++;
 			SpawnPointOneCount++;
-			MinionCharacter->SpawnPoint = 1;
 		}
 	}
 }
@@ -196,12 +183,10 @@ void ANogarapGameMode::SpawnPointTwo()
 	//small minions
 	if (SpawnPointTwoMinionCount < MinionStats[CurrentWave].MinionCount)
 	{
-		if (AMinionCharacter* MinionCharacter = GetWorld()->SpawnActor<AMinionCharacter>(MinionClass, SpawnPoints[2]->GetSpawnPoint()))
+		if (SpawnWeeMinion(2))
 		{
-			MinionCharacter->SetStats(MinionStats[CurrentWave].MinionHealth, MinionStats[CurrentWave].MinionDamage);
 			SpawnPointTwoMinionCount++;
 			SpawnPointTwoCount++;
-			MinionCharacter->SpawnPoint = 2;
 		}
 		return;
 	}
@@ -209,12 +194,10 @@ void ANogarapGameMode::SpawnPointTwo()
 	//big minions
 	if (SpawnPointTwoBigMinionCount < MinionStats[CurrentWave].BigMinionCount)
 	{
-		if (AMinionCharacter* MinionCharacter = GetWorld()->SpawnActor<AMinionCharacter>(BigMinionClass, SpawnPoints[2]->GetSpawnPoint()))
+		if (SpawnBigMinion(2))
 		{
-			MinionCharacter->SetStats(MinionStats[CurrentWave].BigMinionHealth, MinionStats[CurrentWave].BigMinionDamage);
 			SpawnPointTwoBigMinionCount++;
 			SpawnPointTwoCount++;
-			MinionCharacter->SpawnPoint = 2;
 		}
 	}
 }
@@ -224,12 +207,10 @@ void ANogarapGameMode::SpawnPointThree()
 	//small minions
 	if (SpawnPointThreeMinionCount < MinionStats[CurrentWave].MinionCount)
 	{
-		if (AMinionCharacter* MinionCharacter = GetWorld()->SpawnActor<AMinionCharacter>(MinionClass, SpawnPoints[3]->GetSpawnPoint()))
+		if (SpawnWeeMinion(3))
 		{
-			MinionCharacter->SetStats(MinionStats[CurrentWave].MinionHealth, MinionStats[CurrentWave].MinionDamage);
 			SpawnPointThreeMinionCount++;
 			SpawnPointThreeCount++;
-			MinionCharacter->SpawnPoint = 3;
 		}
 		return;
 	}
@@ -237,14 +218,36 @@ void ANogarapGameMode::SpawnPointThree()
 	//big minions
 	if (SpawnPointThreeBigMinionCount < MinionStats[CurrentWave].BigMinionCount)
 	{
-		if (AMinionCharacter* MinionCharacter = GetWorld()->SpawnActor<AMinionCharacter>(BigMinionClass, SpawnPoints[3]->GetSpawnPoint()))
+		if (SpawnBigMinion(3))
 		{
-			MinionCharacter->SetStats(MinionStats[CurrentWave].BigMinionHealth, MinionStats[CurrentWave].BigMinionDamage);
 			SpawnPointThreeBigMinionCount++;
 			SpawnPointThreeCount++;
-			MinionCharacter->SpawnPoint = 3;
 		}
 	}
+}
+
+bool ANogarapGameMode::SpawnWeeMinion(const int32 SpawnIndex)
+{
+	if (AMinionCharacter* MinionCharacter = GetWorld()->SpawnActor<AMinionCharacter>(MinionClass, SpawnPoints[SpawnIndex]->GetSpawnPoint()))
+	{
+		const float DifficultyModifier = GetDifficultyModifier();
+		MinionCharacter->SetStats(WeeMinion.Damage * DifficultyModifier, WeeMinion.Health * DifficultyModifier);
+		MinionCharacter->SpawnPoint = SpawnIndex;
+		return true;
+	}
+	return false;
+}
+
+bool ANogarapGameMode::SpawnBigMinion(const int32 SpawnIndex)
+{
+	if (AMinionCharacter* MinionCharacter = GetWorld()->SpawnActor<AMinionCharacter>(BigMinionClass, SpawnPoints[SpawnIndex]->GetSpawnPoint()))
+	{
+		const float DifficultyModifier = GetDifficultyModifier();
+		MinionCharacter->SetStats(BigMinion.Damage * DifficultyModifier, BigMinion.Health * DifficultyModifier);
+		MinionCharacter->SpawnPoint = SpawnIndex;
+		return true;
+	}
+	return false;
 }
 
 void ANogarapGameMode::CheckWaveComplete()
@@ -277,8 +280,8 @@ void ANogarapGameMode::CheckWaveComplete()
 			FActorSpawnParameters SpawnParams = FActorSpawnParameters();
 			SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 			AVillainCharacter* VillainCharacter = GetWorld()->SpawnActor<AVillainCharacter>(GameInstance->VillainToSpawn, SpawnPoints[-2]->GetSpawnPoint(), SpawnParams);
-
-			// spawn villain todo set stats
+			const float DifficultyModifier = GetDifficultyModifier();
+			VillainCharacter->SetStats(Villain.Damage * DifficultyModifier, Villain.Health * DifficultyModifier);
 		}
 
 		MinionsDestroyed = 0;
@@ -290,8 +293,7 @@ void ANogarapGameMode::CheckWaveComplete()
 		SpawnPointTwoBigMinionCount = 0;
 		SpawnPointThreeMinionCount = 0;
 		SpawnPointThreeBigMinionCount = 0;
-
-
+		
 		if (CurrentWave < 5)
 		{
 			//start timer to start next wave
@@ -310,4 +312,25 @@ void ANogarapGameMode::CheckWaveComplete()
 			GameInstance->SaveCharacterScore(TotalScore);
 		}
 	}
+}
+
+float ANogarapGameMode::GetDifficultyModifier() const
+{
+	float Modifier = 1.0f;
+	switch (Difficulty)
+	{
+	case EDifficulty::Easy:
+		Modifier = 1.0f;
+		break;
+	case EDifficulty::Medium:
+		Modifier = 2.0f;
+		break;
+	case EDifficulty::Hard:
+		Modifier = 3.0f;
+		break;
+	case EDifficulty::Expert:
+		Modifier = 5.0f;
+		break;
+	}
+	return Modifier;
 }
