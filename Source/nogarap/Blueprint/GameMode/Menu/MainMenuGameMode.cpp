@@ -4,8 +4,8 @@
 #include "Kismet/GameplayStatics.h"
 #include "nogarap/Blueprint/Character/Menu/MenuCharacter.h"
 #include "nogarap/Blueprint/GameInstance/NogarapGameInstance.h"
-#include "nogarap/Blueprint/UI/Widget/MainMenuWidget.h"
 #include "nogarap/Blueprint/UI/Widget/Load/LoadMenuWidget.h"
+#include "nogarap/Blueprint/UI/Widget/Main/MainMenuWidget.h"
 
 void AMainMenuGameMode::BeginPlay()
 {
