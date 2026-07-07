@@ -83,10 +83,11 @@ public:
 	void VillainSelected() const;
 	UFUNCTION(BlueprintCallable)
 	void MoveVillain() const;
-	UFUNCTION(BlueprintCallable)
-	void Start() const;
+	UFUNCTION()
+	void Start(EDifficulty Difficulty) const;
 
 	void SetHeroStats(const FCharacterStats& Info) const;
+
 private:
 	void SpawnHero(const TSubclassOf<AMenuCharacter> HeroClass);
 	void SpawnVillain(const TSubclassOf<AMenuCharacter> VillainClass);

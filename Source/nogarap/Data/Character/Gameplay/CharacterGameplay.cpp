@@ -2,6 +2,7 @@
 
 #include "Kismet/KismetSystemLibrary.h"
 #include "nogarap/Data/Character/Characters.h"
+#include "nogarap/Data/Character/Difficulty.h"
 #include "nogarap/Data/Character/Stats/CharacterStats.h"
 
 FCharacterGameplay::FCharacterGameplay() : CurrentCharacter(ECharacters::Aurora), Info(FCharacterStats())
@@ -41,8 +42,31 @@ float FCharacterGameplay::GetCurrentHealth() const
 
 int32 FCharacterGameplay::UpdateScore(const int32 Delta)
 {
-	Info.Score += Delta;
+	Info.Score += (Delta * GetDifficultyMultiplier());
 	return Info.Score;
+}
+
+float FCharacterGameplay::GetDifficultyMultiplier() const
+{
+	float Multiplier;
+	switch (Info.Difficulty)
+	{
+	case EDifficulty::Easy:
+		Multiplier = 1.0f;
+		break;
+	case EDifficulty::Medium:
+		Multiplier = 1.5f;
+		break;
+	case EDifficulty::Hard:
+		Multiplier = 2.0f;
+		break;
+	case EDifficulty::Expert:
+		Multiplier = 2.5f;
+		break;
+	}
+
+
+	return Multiplier;
 }
 
 float FCharacterGameplay::GetScore() const

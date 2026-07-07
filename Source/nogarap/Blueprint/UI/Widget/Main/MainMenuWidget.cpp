@@ -2,11 +2,20 @@
 
 #include "MainMenuWidget.h"
 #include "CoreMinimal.h"
+#include "Kismet/GameplayStatics.h"
 #include "nogarap/Data/Character/Stats/CharacterStats.h"
+
+void UMainMenuWidget::NativePreConstruct()
+{
+	Super::NativePreConstruct();
+	GameMode = Cast<AMainMenuGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+}
 
 void UMainMenuWidget::SetHeroStats(const FCharacterStats& CharacterInfo)
 {
-	//todo save difficulty too
+	CurrentDifficulty = CharacterInfo.Difficulty;
+	SetDifficulty(GetDifficultyText());
+
 	SetScore(FText::FromString(FString::FromInt(CharacterInfo.TotalScore)));
 	SetRed(CharacterInfo.ReadableLevel(CharacterInfo.RedLevel));
 	SetBlue(CharacterInfo.ReadableLevel(CharacterInfo.BlueLevel));
@@ -34,7 +43,7 @@ void UMainMenuWidget::PreviousDifficulty()
 		CurrentDifficulty = EDifficulty::Hard;
 		break;
 	}
-	
+
 	SetDifficulty(GetDifficultyText());
 }
 
@@ -81,4 +90,9 @@ FText UMainMenuWidget::GetDifficultyText() const
 		break;
 	}
 	return Text;
+}
+
+void UMainMenuWidget::Start() const
+{
+	GameMode->Start(CurrentDifficulty);
 }

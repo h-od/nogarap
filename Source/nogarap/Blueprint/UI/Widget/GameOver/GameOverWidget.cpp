@@ -6,6 +6,7 @@ void UGameOverWidget::NativePreConstruct()
 {
 	Super::NativePreConstruct();
 	GetOwningPlayer()->SetInputMode(FInputModeUIOnly());
+	GetOwningPlayer()->SetShowMouseCursor(true);
 }
 
 void UGameOverWidget::Reset() const

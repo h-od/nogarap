@@ -1,6 +1,7 @@
 ﻿#include "NogarapGameInstance.h"
 
 #include "Kismet/GameplayStatics.h"
+#include "nogarap/Data/Character/Difficulty.h"
 #include "nogarap/Data/Character/Stats/CharacterStats.h"
 
 UNogarapGameInstance::UNogarapGameInstance()
@@ -29,6 +30,7 @@ void UNogarapGameInstance::Load()
 		CharactersInfo = TMap<ECharacters, FCharacterStats>();
 		const FCharacterStats NewCharacter = FCharacterStats(
 			TotalScore,
+			EDifficulty::Easy,
 			OffensiveTime,
 			Offensive,
 			OffensiveIncrement,
@@ -153,9 +155,10 @@ int32 UNogarapGameInstance::GetCurrentSaveSlot() const
 	return CurrentSaveSlotIndex;
 }
 
-void UNogarapGameInstance::SetCurrentCharacter(ECharacters Character)
+void UNogarapGameInstance::SetCurrentCharacterAndDifficulty(const ECharacters Character, const EDifficulty Difficulty)
 {
 	CurrentCharacter = Character;
+	CharactersInfo[Hero].Difficulty = Difficulty;
 	Save();
 }
 

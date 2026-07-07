@@ -127,9 +127,9 @@ void AMainMenuGameMode::MoveVillain() const
 	//CurrentVillain->MoveTo(FVector(-260.0f, -200.0f, 145.0f), FRotator(0.0f, 90.0f, 0.0f));
 }
 
-void AMainMenuGameMode::Start() const
+void AMainMenuGameMode::Start(const EDifficulty Difficulty) const
 {
-	GameInstance->SetCurrentCharacter(CurrentHero->Character);
+	GameInstance->SetCurrentCharacterAndDifficulty(CurrentHero->Character, Difficulty);
 	APlayerController* Controller = GetGameInstance()->GetLocalPlayers()[0]->GetPlayerController(GetWorld());
 	Controller->SetInputMode(FInputModeGameOnly());
 	Controller->SetShowMouseCursor(false);

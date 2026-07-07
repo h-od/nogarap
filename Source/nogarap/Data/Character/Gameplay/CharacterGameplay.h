@@ -25,6 +25,7 @@ struct NOGARAP_API FCharacterGameplay
 	int UpdateHealth(float Delta);
 	float GetCurrentHealth() const;
 	int32 UpdateScore(int32 Delta);
+	float GetDifficultyMultiplier() const;
 	float GetScore() const;
 	int32 GetTotalScore();
 	float GetDamage() const;

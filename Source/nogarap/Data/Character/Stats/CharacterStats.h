@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "CharacterStats.generated.h"
 
+enum class EDifficulty : uint8;
+
 USTRUCT()
 struct NOGARAP_API FCharacterStats
 {
@@ -14,6 +16,8 @@ struct NOGARAP_API FCharacterStats
 	int32 Score;
 	UPROPERTY()
 	int32 TotalScore;
+	UPROPERTY()
+	EDifficulty Difficulty;
 
 	UPROPERTY()
 	int32 RedLevel = 0;
@@ -80,6 +84,7 @@ struct NOGARAP_API FCharacterStats
 
 	FCharacterStats(
 		const float NewScore,
+		const EDifficulty NewDifficulty,
 		const float NewOffensiveTime,
 		const float NewOffensive,
 		const float NewMaxOffensive,
@@ -106,6 +111,7 @@ struct NOGARAP_API FCharacterStats
 	{
 		TotalScore = NewScore;
 		Score = 0;
+		Difficulty = NewDifficulty;
 		OffensiveTime = NewOffensiveTime;
 		Offensive = NewOffensive;
 		OffensiveIncrement = NewMaxOffensiveIncrement;

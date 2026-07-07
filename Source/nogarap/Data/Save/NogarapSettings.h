@@ -2,6 +2,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "nogarap/Data/Character/Difficulty.h"
 #include "NogarapSettings.generated.h"
 
 USTRUCT(BlueprintType, Category = "Struct to hold all Gameplay data")
@@ -17,7 +18,7 @@ struct NOGARAP_API FNogarapSettings
 	float MouseSensAiming;// 0-1
 	UPROPERTY()
 	float StickSensAiming;// 0-1
-	
+
 	FNogarapSettings()
 	{
 		MouseSens = 0.5f;

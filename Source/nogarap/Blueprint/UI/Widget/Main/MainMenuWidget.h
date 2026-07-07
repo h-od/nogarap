@@ -2,9 +2,11 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "nogarap/Blueprint/GameMode/Menu/MainMenuGameMode.h"
 #include "nogarap/Data/Character/Difficulty.h"
 #include "MainMenuWidget.generated.h"
 
+class AMainMenuGameMode;
 enum class EDifficulty : uint8;
 struct FCharacterStats;
 
@@ -15,7 +17,13 @@ class NOGARAP_API UMainMenuWidget : public UUserWidget
 
 	UPROPERTY()
 	EDifficulty CurrentDifficulty = EDifficulty::Easy;
+
+protected:
+	UPROPERTY(BlueprintReadOnly)
+	AMainMenuGameMode* GameMode;
 	
+	virtual void NativePreConstruct() override;
+
 public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void SetVillainSelect();
@@ -53,4 +61,6 @@ public:
 	void VillainSelected();
 	UFUNCTION(BlueprintImplementableEvent)
 	void Unfade();
+	UFUNCTION(BlueprintCallable)
+	void Start() const;
 };

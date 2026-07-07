@@ -110,7 +110,7 @@ public:
 	void SaveCharacterScore(const float NewScore);
 	USaveMeta* GetSaveMeta() const;
 	int32 GetCurrentSaveSlot() const;
-	void SetCurrentCharacter(ECharacters Character);
+	void SetCurrentCharacterAndDifficulty(ECharacters Character, EDifficulty Difficulty);
 	void SetCurrentSaveSlot(int32 NewCurrent);
 
 private:
