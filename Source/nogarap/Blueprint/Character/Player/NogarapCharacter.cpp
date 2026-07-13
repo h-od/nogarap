@@ -122,6 +122,7 @@ void ANogarapCharacter::Die()
 {
 	bIsDead = true;
 	GetMesh()->PlayAnimation(DeathAnim, false);
+	GetMovementComponent()->StopMovementImmediately();
 	GetMovementComponent()->Deactivate();
 	NogarapController->GameOver();
 }

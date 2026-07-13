@@ -17,11 +17,10 @@ void AVillainCharacter::BeginPlay()
 void AVillainCharacter::SetHealth(const float NewValue)
 {
 	GetBossWidget()->SetHealth(NewValue);
-	
-		if (NewValue == 0)
-		{
-			GameMode->VillainDestroyed();
-	
+
+	if (NewValue == 0 and GameMode)
+	{
+		GameMode->VillainDestroyed();
 	}
 }
 

@@ -1,11 +1,13 @@
 ﻿#include "EnemyCharacter.h"
 
 #include "TimerManager.h"
+#include "Animation/AnimInstance.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Engine/World.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "nogarap/Blueprint/Character/Anim/NogarapAnimInstance.h"
 #include "nogarap/Blueprint/Character/Player/NogarapCharacter.h"
 #include "nogarap/Blueprint/GameMode/NogarapGameMode.h"
 
@@ -17,7 +19,7 @@ AEnemyCharacter::AEnemyCharacter()
 void AEnemyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 	GameMode = Cast<ANogarapGameMode>(GetWorld()->GetAuthGameMode());
 	SetHealth(1);
 }
@@ -27,7 +29,7 @@ float AEnemyCharacter::TakeDamage(const float Damage, const FDamageEvent& Damage
 	UpdateHealth(Damage * -1);
 	StopAnimMontage();
 	PlayAnimMontage(HitAnim);
-	
+
 	return Super::TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
 }
 
@@ -97,22 +99,38 @@ void AEnemyCharacter::UpdateHealth(const float Delta)
 	{
 		bIsDead = true;
 		NewHealth = 0.0f;
+		
+		GetMovementComponent()->StopMovementImmediately();
+		GetMovementComponent()->Deactivate();
+		
 		GetMesh()->PlayAnimation(DeadAnim, false);
-		GetMesh()->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
-		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
-		DelayedDestroy(DeadAnim->GetPlayLength()); //TODO instead of destroy do some sort of dissolving effect
+		DelayedDestroy(DeadAnim->GetPlayLength());
 	}
 	else
 	{
 		NewHealth = Health / MaxHealth;
 	}
-	
+
 	SetHealth(NewHealth);
+}
+
+void AEnemyCharacter::RagDoll() const
+{
+	GetCharacterMovement()->StopMovementImmediately();
+	GetCharacterMovement()->DisableMovement();
+
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
+	GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECR_Ignore);
+
+	GetMesh()->SetCollisionProfileName(TEXT("Ragdoll"));
+	GetMesh()->SetSimulatePhysics(true);
+	GetMesh()->WakeAllRigidBodies();
 }
 
 void AEnemyCharacter::DelayedDestroy(const float Duration)
 {
-	GetWorldTimerManager().SetTimer(DestroyTimerHandle, this, &AEnemyCharacter::DoDestroy, Duration, false);
+	// GetWorldTimerManager().SetTimer(RagdollTimerHandle, this, &AEnemyCharacter::RagDoll, Duration, false);
+	GetWorldTimerManager().SetTimer(DestroyTimerHandle, this, &AEnemyCharacter::DoDestroy, Duration /*+ 2.5f*/, false);
 }
 
 void AEnemyCharacter::DoDestroy()

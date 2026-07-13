@@ -40,3 +40,8 @@ void UNogarapAnimInstance::NativeThreadSafeUpdateAnimation(float DeltaSeconds)
 
 	FullBody = GetCurveValue(FName("FullBody")) > 0.0f;
 }
+
+float UNogarapAnimInstance::PlayAnimation(UAnimMontage* DeadAnim)
+{
+	return Montage_Play(DeadAnim);
+}

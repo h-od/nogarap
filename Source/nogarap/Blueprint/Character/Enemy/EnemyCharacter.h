@@ -29,6 +29,8 @@ class NOGARAP_API AEnemyCharacter : public ACharacter
 	FHitResult AttackHitLeft;
 	
 	UPROPERTY()
+	FTimerHandle RagdollTimerHandle;
+	UPROPERTY()
 	FTimerHandle DestroyTimerHandle;
 	
 	UPROPERTY() 
@@ -92,6 +94,7 @@ protected:
 
 	UFUNCTION()
 	void UpdateHealth(float Delta);
+	void RagDoll() const;
 	void DelayedDestroy(float Duration);
 	UFUNCTION()
 	void DoDestroy();

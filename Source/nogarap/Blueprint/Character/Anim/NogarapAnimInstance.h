@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "Animation/AnimInstance.h"
+#include "nogarap/Blueprint/Character/Enemy/EnemyCharacter.h"
 #include "NogarapAnimInstance.generated.h"
 
 class ANogarapCharacter;
@@ -36,4 +37,5 @@ protected:
 public:
 	virtual void NativeBeginPlay() override;
 	virtual void NativeThreadSafeUpdateAnimation(float DeltaSeconds) override;
+	float PlayAnimation(UAnimMontage* DeadAnim);
 };
